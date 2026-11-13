@@ -1,11 +1,13 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>pexel.sahil</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400..700&display=swap">
 <style>
-/* Layout concept: a pixel-grid portfolio. Sticky header, one wide column of content, and a resolution-sharpening mosaic as the hero's single bold moment. Everything else stays quiet: flat surfaces, thin rules, square corners, mono labels. */
 :root {
   --bg: #F3F5F9;
   --surface: #FFFFFF;
@@ -19,76 +21,42 @@
   --f-body: 'Instrument Sans', 'Segoe UI', system-ui, sans-serif;
   --f-mono: 'DM Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
   --r: 2px;
+  color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0B0D14;
-    --surface: #141824;
-    --ink: #EEF0F7;
-    --muted: #9AA3B8;
-    --line: #262C3D;
-    --accent: #7F8CFF;
-    --accent-ink: #0B0D14;
-    --accent-soft: #1E2347;
+    --bg: #0B0D14; --surface: #141824; --ink: #EEF0F7; --muted: #9AA3B8;
+    --line: #262C3D; --accent: #7F8CFF; --accent-ink: #0B0D14; --accent-soft: #1E2347;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0B0D14;
-  --surface: #141824;
-  --ink: #EEF0F7;
-  --muted: #9AA3B8;
-  --line: #262C3D;
-  --accent: #7F8CFF;
-  --accent-ink: #0B0D14;
-  --accent-soft: #1E2347;
+  --bg: #0B0D14; --surface: #141824; --ink: #EEF0F7; --muted: #9AA3B8;
+  --line: #262C3D; --accent: #7F8CFF; --accent-ink: #0B0D14; --accent-soft: #1E2347;
   color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: auto; }
+html { scroll-behavior: auto; scroll-padding-top: env(safe-area-inset-top, 0px); }
 body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--f-body);
-  font-size: 16px;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0 0 auto;
-  height: env(safe-area-inset-top, 0px);
-  z-index: 10;
-  background: var(--bg);
+  margin: 0; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: var(--bg); color: var(--ink);
+  font-family: var(--f-body); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased;
 }
 a { color: inherit; }
 img, svg { max-width: 100%; }
+[hidden]:not([hidden=until-found i]) { display: none !important; }
 h1, h2, h3, h4 { font-family: var(--f-display); margin: 0; text-wrap: balance; letter-spacing: -0.015em; line-height: 1.08; }
 p { margin: 0; }
 ul { margin: 0; padding: 0; list-style: none; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-.wrap {
-  width: 100%;
-  max-width: 1180px;
-  margin-inline: auto;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-}
+.wrap { width: 100%; max-width: 1180px; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 .mono { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 .accent { color: var(--accent); }
 
 /* Header */
-.site {
-  position: sticky;
-  top: env(safe-area-inset-top, 0px);
-  z-index: 20;
-  background: var(--bg);
-  border-bottom: 1px solid var(--line);
-}
+.site { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); border-bottom: 1px solid var(--line); }
 .bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding-block: 12px; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--f-display); font-weight: 700; font-size: 20px; letter-spacing: -0.02em; margin-right: auto; }
 .brand svg { width: 22px; height: 22px; flex: none; }
@@ -99,16 +67,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .nav a[aria-current="page"] { color: var(--ink); box-shadow: inset 0 -2px 0 var(--accent); }
 .nav a.cta { background: var(--accent); color: var(--accent-ink); margin-left: 8px; }
 .nav a.cta[aria-current="page"] { box-shadow: none; outline: 2px solid var(--ink); outline-offset: 2px; }
-.icon-btn, .menu-btn {
-  font: 500 13px var(--f-mono);
-  letter-spacing: 0.04em;
-  background: transparent;
-  color: var(--ink);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-  padding: 8px 12px;
-  cursor: pointer;
-}
+.icon-btn, .menu-btn { font: 500 13px var(--f-mono); letter-spacing: 0.04em; background: transparent; color: var(--ink); border: 1px solid var(--line); border-radius: var(--r); padding: 8px 12px; cursor: pointer; }
 .icon-btn:hover, .menu-btn:hover { border-color: var(--accent); }
 .menu-btn { display: none; }
 @media (max-width: 939px) {
@@ -121,17 +80,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 /* Buttons */
-.btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: 600 15px var(--f-body);
-  text-decoration: none;
-  padding: 13px 20px;
-  border-radius: var(--r);
-  border: 1px solid var(--ink);
-  background: transparent;
-  color: var(--ink);
-  cursor: pointer;
-}
+.btn { display: inline-flex; align-items: center; gap: 8px; font: 600 15px var(--f-body); text-decoration: none; padding: 13px 20px; border-radius: var(--r); border: 1px solid var(--ink); background: transparent; color: var(--ink); cursor: pointer; }
 .btn:hover { border-color: var(--accent); color: var(--accent); }
 .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 .btn.primary:hover { background: var(--ink); border-color: var(--ink); color: var(--bg); }
@@ -173,6 +122,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .card-body p { color: var(--muted); font-size: 15px; }
 .cv { aspect-ratio: 4 / 3; max-width: 100%; border-bottom: 1px solid var(--line); overflow: hidden; background: var(--accent-soft); }
 .cv svg { display: block; width: 100%; height: 100%; }
+.cv img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .cv .a { fill: var(--accent); }
 .cv .i { fill: var(--ink); }
 .cv .s { fill: var(--surface); }
@@ -271,15 +221,7 @@ form { display: grid; gap: 18px; }
 .field { display: grid; gap: 6px; }
 .field label { font-weight: 600; font-size: 14px; }
 .field label small { font-weight: 400; color: var(--muted); }
-input, select, textarea {
-  width: 100%;
-  font: 400 16px var(--f-body);
-  color: var(--ink);
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-  padding: 12px 14px;
-}
+input, select, textarea { width: 100%; font: 400 16px var(--f-body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; }
 textarea { resize: vertical; min-height: 130px; }
 input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 0; border-color: var(--accent); }
 .two { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
@@ -300,11 +242,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 .foot nav a:hover { color: var(--accent); }
 
 /* Project dialog */
-.overlay {
-  position: fixed; inset: 0; z-index: 50; overflow-y: auto;
-  background: color-mix(in srgb, var(--ink) 60%, transparent);
-  padding: calc(16px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
-}
+.overlay { position: fixed; inset: 0; z-index: 50; overflow-y: auto; background: color-mix(in srgb, var(--ink) 60%, transparent); padding: calc(16px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
 .modal { position: relative; max-width: 720px; margin: 0 auto; background: var(--bg); border: 1px solid var(--line); }
 .modal .close { position: absolute; top: 12px; right: 12px; z-index: 2; background: var(--surface); }
 .m-body { padding: clamp(20px, 4vw, 36px); display: grid; gap: 14px; }
@@ -313,49 +251,10 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 .m-body ul li { padding: 8px 0; border-bottom: 1px solid var(--line); }
 .m-body .mono { margin-top: 6px; }
 
-
-/* Admin area */
-.admin-wrap{max-width:760px;margin-inline:auto;padding-block:clamp(36px,7vw,76px)}
-.admin-panel{background:var(--surface);border:1px solid var(--line);padding:clamp(22px,4vw,38px);display:grid;gap:20px}
-.admin-mark{width:44px;height:44px;border:1px solid var(--line);display:grid;place-items:center;font:700 22px var(--f-display);color:var(--accent)}
-.admin-form{max-width:420px;display:grid;gap:16px}
-.admin-form input{min-height:52px;border-radius:0}
-.admin-tabs{display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px}
-.admin-tab{border:1px solid var(--line);background:transparent;color:var(--ink);padding:9px 14px;font:500 13px var(--f-mono);cursor:pointer}
-.admin-tab[aria-pressed=true]{background:var(--ink);color:var(--bg)}
-.message-list{display:grid;gap:10px}
-.message-item{width:100%;text-align:left;border:1px solid var(--line);background:var(--surface);padding:16px;cursor:pointer;color:var(--ink);font:inherit}
-.message-item:hover,.message-item.active{border-color:var(--accent)}
-.message-item strong{display:block;font-family:var(--f-display);font-size:17px}
-.message-item small{color:var(--muted)}
-.message-detail{border:1px solid var(--line);padding:18px;display:grid;gap:14px;background:var(--surface)}
-.message-detail textarea{min-height:120px;border-radius:0}
-.admin-note{font-size:13px;color:var(--muted);line-height:1.5}
-.admin-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-@media(max-width:939px){.nav a[data-link=admin]{border-bottom:1px solid var(--line)}}
-.view-tabs{display:flex;gap:8px;flex-wrap:wrap}
-.view-tab{border:1px solid var(--line);background:transparent;color:var(--ink);padding:10px 16px;font:500 13px var(--f-mono);cursor:pointer;border-radius:var(--r)}
-.view-tab[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-.admin-view{display:grid;gap:20px}
-.proj-form{display:grid;gap:14px;border:1px solid var(--line);padding:18px;background:var(--bg)}
-.proj-form h3{font-size:1.3rem}
-.proj-list{display:grid;gap:10px}
-.proj-row{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:1px solid var(--line);padding:12px;background:var(--bg)}
-.proj-row .info{display:flex;gap:12px;align-items:center;min-width:0;flex:1 1 220px}
-.proj-row .info strong{display:block;font-family:var(--f-display);font-size:16px;overflow-wrap:anywhere}
-.thumb{width:64px;height:48px;aspect-ratio:auto;border:1px solid var(--line);flex:none;overflow:hidden}
-.thumb svg,.thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.proj-actions{display:flex;gap:6px;flex-wrap:wrap}
-.mini{font:500 12px var(--f-mono);padding:8px 10px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;border-radius:var(--r)}
-.mini:hover{border-color:var(--accent)}
-.mini.danger.armed{background:#C2261B;border-color:#C2261B;color:#fff}
-.img-prev{width:160px;height:120px;border:1px solid var(--line);overflow:hidden;background:var(--surface)}
-.img-prev img{width:100%;height:100%;object-fit:cover;display:block}
-.tools-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.cv img{display:block;width:100%;height:100%;object-fit:cover}
-
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
 </style>
+</head>
+<body>
 
 <header class="site">
   <div class="wrap bar">
@@ -372,7 +271,6 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
       <a href="#about" data-link="about">About</a>
       <a href="#journal" data-link="journal">Journal</a>
       <a href="#contact" data-link="contact" class="cta">Contact</a>
-      <a href="#admin" data-link="admin">Admin</a>
     </nav>
     <button class="icon-btn" id="themeBtn" aria-label="Switch between light and dark theme">Theme</button>
   </div>
@@ -681,75 +579,6 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   </div>
 </section>
 
-
-<!-- ADMIN -->
-<section data-page="admin" hidden>
-  <div class="wrap admin-wrap">
-    <div class="page-head" style="padding-top:0">
-      <span class="mono">Private workspace</span>
-      <h1>Admin access.</h1>
-      <p class="lead">Manage project enquiries and reply to members personally.</p>
-    </div>
-    <div class="admin-panel" id="adminLogin">
-      <div class="admin-mark">p.</div>
-      <div><span class="mono">Administrator sign in</span><h2 style="font-size:1.8rem;margin-top:6px">Welcome back.</h2></div>
-      <form class="admin-form" id="adminLoginForm">
-        <div class="field"><label for="adminEmail">Email</label><input id="adminEmail" type="email" value="mohdsahil050pullur@gmail.com" autocomplete="username" required></div>
-        <div class="field"><label for="adminPassword">Password</label><input id="adminPassword" type="password" placeholder="Enter admin password" autocomplete="current-password" required></div>
-        <p class="err" id="adminLoginError" aria-live="polite"></p>
-        <button class="btn primary" type="submit">Sign in</button>
-      </form>
-      <p class="admin-note">This is a front-end demonstration login. A real deployed admin area needs server-side authentication before it can safely protect member data.</p>
-    </div>
-    <div class="admin-panel" id="adminDashboard" hidden>
-      <div class="admin-top"><div><span class="mono">Dashboard</span><h2 style="font-size:2rem;margin-top:5px">Site manager</h2></div><button class="btn" type="button" id="adminLogout">Sign out</button></div>
-      <div class="view-tabs"><button class="view-tab" type="button" data-view="messages" aria-pressed="true">Messages</button><button class="view-tab" type="button" data-view="projects" aria-pressed="false">Projects &amp; work</button></div>
-      <div class="admin-view" id="viewMessages">
-      <div class="admin-tabs"><button class="admin-tab" type="button" data-filter="all" aria-pressed="true">All messages</button><button class="admin-tab" type="button" data-filter="new" aria-pressed="false">New</button><button class="admin-tab" type="button" data-filter="replied" aria-pressed="false">Replied</button></div>
-      <div class="message-list" id="adminMessageList"></div>
-      <div class="message-detail" id="adminMessageDetail" hidden>
-        <div><span class="mono" id="detailStatus"></span><h3 id="detailName" style="margin-top:6px"></h3><p id="detailEmail" style="color:var(--muted);overflow-wrap:anywhere"></p></div>
-        <p id="detailProject" style="font-weight:600"></p><p id="detailMessage" style="white-space:pre-wrap"></p>
-        <div class="field"><label for="adminReply">Personal reply</label><textarea id="adminReply" placeholder="Write your reply to this member..."></textarea></div>
-        <div class="row"><button class="btn primary" type="button" id="sendReply">Reply by email</button><button class="btn" type="button" id="deleteMsg">Delete message</button></div>
-        <p class="admin-note">Reply opens your email app with the member's address and your message filled in. You must press Send in your email app.</p>
-      </div>
-      </div>
-      <div class="admin-view" id="viewProjects" hidden>
-        <p class="admin-note">Add, edit, reorder, remove or upload work. Changes show on Home and Work straight away.</p>
-        <form class="proj-form" id="projForm" novalidate>
-          <h3 id="projFormTitle">Add a project</h3>
-          <div class="two">
-            <div class="field"><label for="pName">Project name</label><input id="pName" type="text" maxlength="80"></div>
-            <div class="field"><label for="pCat">Discipline</label><select id="pCat"><option>Brand</option><option>Interface</option><option>Motion</option><option>Print</option></select></div>
-          </div>
-          <div class="two">
-            <div class="field"><label for="pYear">Year</label><input id="pYear" type="number" min="2000" max="2100" value="2026"></div>
-            <div class="field"><label for="pImg">Cover image <small>(optional upload)</small></label><input id="pImg" type="file" accept="image/*"></div>
-          </div>
-          <div class="img-prev" id="pPrev" hidden></div>
-          <label id="pClearWrap" hidden style="font-size:14px"><input type="checkbox" id="pClear" style="width:auto"> Remove current image</label>
-          <div class="field"><label for="pBlurb">One-line summary</label><input id="pBlurb" type="text" maxlength="140"></div>
-          <div class="field"><label for="pText">Description</label><textarea id="pText" placeholder="What was the project and what did you do?"></textarea></div>
-          <div class="field"><label for="pList">Deliverables <small>(one per line)</small></label><textarea id="pList" style="min-height:90px"></textarea></div>
-          <p class="err" id="pErr" aria-live="polite"></p>
-          <div class="row"><button class="btn primary" type="submit" id="pSave">Add project</button><button class="btn" type="button" id="pCancel" hidden>Cancel edit</button></div>
-        </form>
-        <div class="proj-list" id="projList"></div>
-        <div class="tools-row">
-          <button class="mini" type="button" id="bakeBtn">Download updated website</button>
-          <button class="mini" type="button" id="exportBtn">Export projects (backup)</button>
-          <label class="mini" style="cursor:pointer">Import backup<input type="file" id="importFile" accept="application/json,.json" hidden></label>
-          <button class="mini danger" type="button" id="resetProj">Reset to original six</button>
-        </div>
-        <p class="admin-note" id="projStatus" aria-live="polite"></p>
-        <p class="admin-note"><b>Important:</b> changes are saved in this browser only. Visitors on other devices will not see them until you click <b>Download updated website</b> and upload that file to your host in place of the old one.</p>
-      </div>
-      <p class="admin-note">Demo storage: messages are saved only in this browser on this device. To receive messages from all visitors on a live website, connect a database/backend and email service.</p>
-    </div>
-  </div>
-</section>
-
 </main>
 
 <footer class="foot">
@@ -775,11 +604,14 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   </div>
 </div>
 
+<!-- Project data. admin.html's "Download updated website" rewrites this block. -->
 <script type="application/json" id="siteData">null</script>
 <script>
 (function () {
   'use strict';
-  var ROUTES = ['home', 'work', 'case-study', 'services', 'about', 'journal', 'contact', 'admin'];
+  var ROUTES = ['home', 'work', 'case-study', 'services', 'about', 'journal', 'contact'];
+
+  function escapeHTML(v) { return String(v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 
   /* ---------- artwork helpers ---------- */
   var BEAN = ['..XXXXX..', '.XXXXXXX.', 'XXXXXXXXX', 'XXXXXXXXX', 'XXXXXXXXX', 'XXXXXXXXX', 'XXXXXXXXX', '.XXXXXXX.', '..XXXXX..'];
@@ -865,19 +697,15 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
     { id: 'orbit', name: 'Orbit', cat: 'Motion', year: 2026, blurb: 'Onboarding animation that explains three features in nine seconds.', text: 'A concept onboarding clip for a fitness app. Each feature gets three seconds and a single change of state, then the loop repeats once so nothing is missed.', list: ['Storyboard', 'Animated sequence', 'Vertical and square cuts', 'Source project file'] },
     { id: 'pallu', name: 'Pallu Textiles', cat: 'Brand', year: 2025, blurb: 'A stripe-based identity system for a handloom label.', text: 'A concept identity for a handloom label, built from woven stripe patterns. The same stripe set becomes the logo, the swing tag and the packaging band.', list: ['Stripe pattern library', 'Logo and tag design', 'Packaging band', 'Brand guide'] }
   ];
-  var BAKED = null, memProjects = null;
+  var BAKED = null;
   try { var sd = document.getElementById('siteData'); if (sd && sd.textContent.trim() !== 'null') BAKED = JSON.parse(sd.textContent); } catch (e) {}
   function loadProjects() {
+    // localStorage lets the owner preview admin changes on this browser; visitors see the baked data.
     try { var raw = localStorage.getItem('pexel-projects'); if (raw) { var a = JSON.parse(raw); if (Array.isArray(a)) return a; } } catch (e) {}
-    if (memProjects) return memProjects;
     if (Array.isArray(BAKED)) return BAKED;
     return DEFAULT_PROJECTS.slice();
   }
   var PROJECTS = loadProjects();
-  function saveProjects() {
-    memProjects = PROJECTS;
-    try { localStorage.setItem('pexel-projects', JSON.stringify(PROJECTS)); return true; } catch (e) { return false; }
-  }
   function getCats() {
     var c = ['All'];
     PROJECTS.forEach(function (p) { if (c.indexOf(p.cat) < 0) c.push(p.cat); });
@@ -893,9 +721,8 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
     if (COVERS[p.id]) return COVERS[p.id]();
     return genericCover(p);
   }
-
   function cardHTML(p) {
-    return '<button class="card" type="button" data-id="' + p.id + '">' +
+    return '<button class="card" type="button" data-id="' + escapeHTML(p.id) + '">' +
       '<div class="cv">' + coverFor(p) + '</div>' +
       '<div class="card-body"><span class="mono">' + escapeHTML(p.cat) + ' · ' + escapeHTML(p.year) + '</span><h3>' + escapeHTML(p.name) + '</h3><p>' + escapeHTML(p.blurb) + '</p></div></button>';
   }
@@ -910,7 +737,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
     var nCats = CATS.length - 1;
     document.getElementById('workTitle').textContent = PROJECTS.length + (PROJECTS.length === 1 ? ' project' : ' projects') + ', ' + nCats + (nCats === 1 ? ' discipline.' : ' disciplines.');
     chips.innerHTML = CATS.map(function (c) {
-      return '<button class="chip" type="button" data-cat="' + c + '" aria-pressed="' + (c === activeCat) + '">' + c + '</button>';
+      return '<button class="chip" type="button" data-cat="' + escapeHTML(c) + '" aria-pressed="' + (c === activeCat) + '">' + escapeHTML(c) + '</button>';
     }).join('');
     var list = PROJECTS.filter(function (p) { return activeCat === 'All' || p.cat === activeCat; });
     document.getElementById('workGrid').innerHTML = list.length ? list.map(cardHTML).join('') : '<p class="mono">No projects in this discipline yet.</p>';
@@ -1055,7 +882,6 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
     overlay.hidden = true;
     window.scrollTo(0, 0);
     if (name === 'home') drawMosaic();
-    if (name === 'admin') showAdmin();
   }
   window.addEventListener('hashchange', route);
   menuBtn.addEventListener('click', function () {
@@ -1073,241 +899,13 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
     try { localStorage.setItem('pexel-theme', next); } catch (e) {}
   });
 
-  /* ---------- admin demo inbox ---------- */
-  var ADMIN_EMAIL = 'mohdsahil050pullur@gmail.com';
-  // Demo-only client-side gate. Move authentication to a server before publishing.
-  var ADMIN_PASSWORD = 'pxlshl';
-  var activeMessageId = null, activeFilter = 'all';
-  var memLogged = false, memMessages = null;
-  function isLogged(){ try{ if(sessionStorage.getItem('pexel-admin-session')==='yes') return true; }catch(e){} return memLogged; }
-  function setLogged(v){ memLogged = v; try{ if(v) sessionStorage.setItem('pexel-admin-session','yes'); else sessionStorage.removeItem('pexel-admin-session'); }catch(e){} }
-  function readMessages(){ try{return JSON.parse(localStorage.getItem('pexel-messages')||'[]')}catch(e){return memMessages||[]} }
-  function writeMessages(items){ memMessages = items; try{localStorage.setItem('pexel-messages',JSON.stringify(items));}catch(e){} }
-  function showAdmin(){
-    var logged = isLogged();
-    document.getElementById('adminLogin').hidden = logged;
-    document.getElementById('adminDashboard').hidden = !logged;
-    if(logged) renderAdminMessages();
-  }
-  function renderAdminMessages(){
-    var all=readMessages();
-    var filtered=all.filter(function(m){return activeFilter==='all'||(activeFilter==='new'&&!m.replied)||(activeFilter==='replied'&&m.replied)});
-    var list=document.getElementById('adminMessageList');
-    list.innerHTML=filtered.length?filtered.slice().reverse().map(function(m){
-      return '<button type="button" class="message-item'+(m.id===activeMessageId?' active':'')+'" data-message-id="'+m.id+'"><strong>'+escapeHTML(m.name)+'</strong><small>'+escapeHTML(m.email)+' · '+(m.replied?'Replied':'New')+'</small><p>'+escapeHTML(m.message.slice(0,110))+'</p></button>';
-    }).join(''):'<p class="admin-note">No messages in this folder yet.</p>';
-    document.querySelectorAll('.admin-tab').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.filter===activeFilter));});
-    if(activeMessageId){var found=all.find(function(m){return m.id===activeMessageId}); if(found) showMessage(found); else document.getElementById('adminMessageDetail').hidden=true;}
-  }
-  function escapeHTML(v){return String(v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-  function showMessage(m){
-    activeMessageId=m.id; document.getElementById('adminMessageDetail').hidden=false;
-    document.getElementById('detailStatus').textContent=m.replied?'Replied':'New message';
-    document.getElementById('detailName').textContent=m.name;
-    document.getElementById('detailEmail').textContent=m.email;
-    document.getElementById('detailProject').textContent=m.project||'Project enquiry';
-    document.getElementById('detailMessage').textContent=m.message;
-    document.getElementById('adminReply').value=m.reply||'';
-    document.querySelectorAll('.message-item').forEach(function(b){b.classList.toggle('active',b.dataset.messageId===m.id);});
-  }
-  document.getElementById('adminLoginForm').addEventListener('submit',function(e){
-    e.preventDefault(); var email=document.getElementById('adminEmail').value.trim().toLowerCase();
-    var pass=document.getElementById('adminPassword').value;
-    if(email===ADMIN_EMAIL&&pass.trim()===ADMIN_PASSWORD){setLogged(true);document.getElementById('adminLoginError').textContent='';document.getElementById('adminPassword').value='';showAdmin();}
-    else document.getElementById('adminLoginError').textContent='Email or password is incorrect.';
-  });
-  document.getElementById('adminLogout').addEventListener('click',function(){setLogged(false);activeMessageId=null;showAdmin();});
-  document.getElementById('adminMessageList').addEventListener('click',function(e){var b=e.target.closest('[data-message-id]');if(!b)return;var m=readMessages().find(function(x){return x.id===b.dataset.messageId});if(m)showMessage(m);});
-  document.querySelectorAll('.admin-tab').forEach(function(b){b.addEventListener('click',function(){activeFilter=b.dataset.filter;renderAdminMessages();});});
-  document.getElementById('sendReply').addEventListener('click',function(){
-    var reply=document.getElementById('adminReply').value.trim(); if(!reply||!activeMessageId)return;
-    var all=readMessages(), m=all.find(function(x){return x.id===activeMessageId}); if(!m)return;
-    m.reply=reply; m.replied=true; writeMessages(all);
-    var subject=encodeURIComponent('Re: Your enquiry to pexel.sahil');
-    var body=encodeURIComponent('Hi '+m.name+',\n\n'+reply+'\n\nRegards,\nSahil');
-    window.location.href='mailto:'+encodeURIComponent(m.email)+'?subject='+subject+'&body='+body;
-    renderAdminMessages();
-  });
-
-  /* ---------- admin: view tabs, delete message ---------- */
-  function setView(v) {
-    document.getElementById('viewMessages').hidden = v !== 'messages';
-    document.getElementById('viewProjects').hidden = v !== 'projects';
-    document.querySelectorAll('.view-tab').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.view === v)); });
-    if (v === 'projects') renderAdminProjects();
-  }
-  document.querySelectorAll('.view-tab').forEach(function (b) { b.addEventListener('click', function () { setView(b.dataset.view); }); });
-
-  function arm(btn, label, action) {
-    if (btn.dataset.armed === '1') { btn.dataset.armed = ''; btn.classList.remove('armed'); btn.textContent = btn.dataset.orig; action(); return; }
-    btn.dataset.orig = btn.textContent; btn.dataset.armed = '1'; btn.classList.add('armed'); btn.textContent = label;
-    setTimeout(function () { if (btn.dataset.armed === '1') { btn.dataset.armed = ''; btn.classList.remove('armed'); btn.textContent = btn.dataset.orig; } }, 3500);
-  }
-  document.getElementById('deleteMsg').addEventListener('click', function () {
-    var btn = this;
-    if (!activeMessageId) return;
-    arm(btn, 'Click again to delete', function () {
-      writeMessages(readMessages().filter(function (m) { return m.id !== activeMessageId; }));
-      activeMessageId = null;
-      document.getElementById('adminMessageDetail').hidden = true;
-      renderAdminMessages();
-    });
-  });
-
-  /* ---------- admin: projects ---------- */
-  var editingId = null, pendingImg = null, currentImg = null;
-  var pStatus = document.getElementById('projStatus');
-  function say(t) { pStatus.textContent = t; }
-  function persist(okMsg) {
-    var ok = saveProjects();
-    renderFeatured(); renderWork(); renderAdminProjects();
-    say(ok ? okMsg : okMsg + ' (Browser storage is blocked here, so this lasts only until you close the page. Use "Download updated website" to keep it.)');
-  }
-  function renderAdminProjects() {
-    var list = document.getElementById('projList');
-    if (!PROJECTS.length) { list.innerHTML = '<p class="admin-note">No projects. Add one above.</p>'; return; }
-    list.innerHTML = PROJECTS.map(function (p, i) {
-      return '<div class="proj-row"><div class="info"><div class="cv thumb">' + coverFor(p) + '</div><div><strong>' + escapeHTML(p.name) + '</strong><span class="mono">' + escapeHTML(p.cat) + ' · ' + escapeHTML(p.year) + '</span></div></div>' +
-        '<div class="proj-actions">' +
-        '<button class="mini" type="button" data-act="up" data-id="' + escapeHTML(p.id) + '"' + (i === 0 ? ' disabled' : '') + ' aria-label="Move up">↑</button>' +
-        '<button class="mini" type="button" data-act="down" data-id="' + escapeHTML(p.id) + '"' + (i === PROJECTS.length - 1 ? ' disabled' : '') + ' aria-label="Move down">↓</button>' +
-        '<button class="mini" type="button" data-act="edit" data-id="' + escapeHTML(p.id) + '">Edit</button>' +
-        '<button class="mini danger" type="button" data-act="del" data-id="' + escapeHTML(p.id) + '">Remove</button></div></div>';
-    }).join('');
-  }
-  function resetForm() {
-    editingId = null; pendingImg = null; currentImg = null;
-    document.getElementById('projForm').reset();
-    document.getElementById('pYear').value = new Date().getFullYear();
-    document.getElementById('pPrev').hidden = true; document.getElementById('pPrev').innerHTML = '';
-    document.getElementById('pClearWrap').hidden = true;
-    document.getElementById('projFormTitle').textContent = 'Add a project';
-    document.getElementById('pSave').textContent = 'Add project';
-    document.getElementById('pCancel').hidden = true;
-    document.getElementById('pErr').textContent = '';
-  }
-  function showPrev(src) {
-    var box = document.getElementById('pPrev');
-    if (src) { box.innerHTML = '<img alt="Cover preview" src="' + escapeHTML(src) + '">'; box.hidden = false; } else { box.innerHTML = ''; box.hidden = true; }
-  }
-  function readImage(file, cb) {
-    var fr = new FileReader();
-    fr.onload = function () {
-      var im = new Image();
-      im.onload = function () {
-        var r = Math.min(1, 900 / im.width), c = document.createElement('canvas');
-        c.width = Math.max(1, Math.round(im.width * r)); c.height = Math.max(1, Math.round(im.height * r));
-        var x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); x.drawImage(im, 0, 0, c.width, c.height);
-        cb(c.toDataURL('image/jpeg', 0.82));
-      };
-      im.onerror = function () { cb(null); };
-      im.src = fr.result;
-    };
-    fr.onerror = function () { cb(null); };
-    fr.readAsDataURL(file);
-  }
-  document.getElementById('pImg').addEventListener('change', function () {
-    var f = this.files && this.files[0];
-    if (!f) { pendingImg = null; showPrev(currentImg); return; }
-    readImage(f, function (d) {
-      if (!d) { document.getElementById('pErr').textContent = 'That file could not be read as an image.'; return; }
-      pendingImg = d; document.getElementById('pErr').textContent = ''; showPrev(d);
-    });
-  });
-  document.getElementById('projForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var name = val('pName'), blurb = val('pBlurb');
-    if (!name || !blurb) { document.getElementById('pErr').textContent = 'Add a project name and a one-line summary.'; return; }
-    var year = parseInt(document.getElementById('pYear').value, 10) || new Date().getFullYear();
-    var list = document.getElementById('pList').value.split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
-    var data = { name: name, cat: document.getElementById('pCat').value, year: year, blurb: blurb, text: val('pText') || blurb, list: list };
-    if (editingId) {
-      var p = PROJECTS.filter(function (x) { return x.id === editingId; })[0];
-      if (p) {
-        for (var k in data) p[k] = data[k];
-        if (pendingImg) p.img = pendingImg; else if (document.getElementById('pClear').checked) delete p.img;
-      }
-      resetForm(); persist('Project updated.');
-    } else {
-      data.id = 'p-' + Date.now().toString(36);
-      if (pendingImg) data.img = pendingImg;
-      PROJECTS.unshift(data);
-      resetForm(); persist('Project added. It is now first on Home and Work.');
-    }
-  });
-  document.getElementById('pCancel').addEventListener('click', function () { resetForm(); say(''); });
-  document.getElementById('projList').addEventListener('click', function (e) {
-    var b = e.target.closest ? e.target.closest('[data-act]') : null;
-    if (!b) return;
-    var id = b.dataset.id, act = b.dataset.act;
-    var idx = PROJECTS.findIndex(function (x) { return x.id === id; });
-    if (idx < 0) return;
-    if (act === 'up' && idx > 0) { var t = PROJECTS[idx]; PROJECTS[idx] = PROJECTS[idx - 1]; PROJECTS[idx - 1] = t; persist('Order updated.'); }
-    else if (act === 'down' && idx < PROJECTS.length - 1) { var t2 = PROJECTS[idx]; PROJECTS[idx] = PROJECTS[idx + 1]; PROJECTS[idx + 1] = t2; persist('Order updated.'); }
-    else if (act === 'edit') {
-      var p = PROJECTS[idx]; resetForm(); editingId = id; currentImg = p.img || null;
-      document.getElementById('pName').value = p.name; document.getElementById('pCat').value = p.cat;
-      if (!document.getElementById('pCat').value) { var o = document.createElement('option'); o.textContent = p.cat; document.getElementById('pCat').appendChild(o); document.getElementById('pCat').value = p.cat; }
-      document.getElementById('pYear').value = p.year; document.getElementById('pBlurb').value = p.blurb;
-      document.getElementById('pText').value = p.text || ''; document.getElementById('pList').value = (p.list || []).join('\n');
-      showPrev(currentImg); document.getElementById('pClearWrap').hidden = !currentImg;
-      document.getElementById('projFormTitle').textContent = 'Edit project';
-      document.getElementById('pSave').textContent = 'Save changes';
-      document.getElementById('pCancel').hidden = false;
-      document.getElementById('projForm').scrollIntoView({ block: 'nearest' });
-    }
-    else if (act === 'del') {
-      arm(b, 'Click again to remove', function () {
-        PROJECTS.splice(idx, 1);
-        if (editingId === id) resetForm();
-        persist('Project removed.');
-      });
-    }
-  });
-  document.getElementById('resetProj').addEventListener('click', function () {
-    arm(this, 'Click again to reset', function () {
-      PROJECTS = DEFAULT_PROJECTS.slice(); resetForm(); persist('Restored the original six projects.');
-    });
-  });
-
-  function download(name, text, type) {
-    var b = new Blob([text], { type: type }), a = document.createElement('a');
-    a.href = URL.createObjectURL(b); a.download = name; document.body.appendChild(a); a.click();
-    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
-  }
-  document.getElementById('exportBtn').addEventListener('click', function () {
-    download('pexel-projects-backup.json', JSON.stringify(PROJECTS, null, 2), 'application/json'); say('Backup downloaded.');
-  });
-  document.getElementById('importFile').addEventListener('change', function () {
-    var f = this.files && this.files[0], input = this;
-    if (!f) return;
-    var fr = new FileReader();
-    fr.onload = function () {
-      try {
-        var a = JSON.parse(fr.result);
-        if (!Array.isArray(a)) throw 0;
-        var clean = a.filter(function (x) { return x && typeof x.name === 'string'; }).map(function (x, i) {
-          var o = { id: String(x.id || ('p-i' + i + Date.now().toString(36))), name: String(x.name).slice(0, 80), cat: String(x.cat || 'Brand').slice(0, 30), year: parseInt(x.year, 10) || new Date().getFullYear(), blurb: String(x.blurb || ''), text: String(x.text || x.blurb || ''), list: Array.isArray(x.list) ? x.list.map(String) : [] };
-          if (typeof x.img === 'string' && x.img.indexOf('data:image/') === 0) o.img = x.img;
-          if (x.study) o.study = true;
-          return o;
-        });
-        PROJECTS = clean; resetForm(); persist('Backup imported: ' + clean.length + ' projects.');
-      } catch (e) { say('That file is not a valid projects backup.'); }
-      input.value = '';
-    };
-    fr.readAsText(f);
-  });
-  document.getElementById('bakeBtn').addEventListener('click', function () {
-    var clone = document.documentElement.cloneNode(true);
-    clone.removeAttribute('data-theme');
-    var sd = clone.querySelector('#siteData');
-    sd.textContent = JSON.stringify(PROJECTS).replace(/</g, '\\u003c');
-    download('index.html', '<!doctype html>\n' + clone.outerHTML, 'text/html');
-    say('Downloaded index.html with your current projects built in. Upload it to your host to publish.');
-  });
-
   /* ---------- contact form ---------- */
+  // Enquiries are stored in this browser's localStorage under "pexel-messages".
+  // admin.html reads the same key when it is hosted on the same domain.
+  var memMessages = null;
+  function readMessages() { try { return JSON.parse(localStorage.getItem('pexel-messages') || '[]'); } catch (e) { return memMessages || []; } }
+  function writeMessages(items) { memMessages = items; try { localStorage.setItem('pexel-messages', JSON.stringify(items)); } catch (e) {} }
+
   var form = document.getElementById('briefForm');
   var briefBox = document.getElementById('briefBox'), briefOut = document.getElementById('briefOut'), copyMsg = document.getElementById('copyMsg');
   function val(id) { return document.getElementById(id).value.trim(); }
@@ -1329,10 +927,10 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
       'Timing: ' + document.getElementById('fTime').value + '\n\n' +
       'About the project:\n' + msg + '\n';
     var inbox = readMessages();
-    inbox.push({id:'msg-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),name:name,email:email,project:proj||document.getElementById('fType').value,message:msg+'\n\nNeed: '+document.getElementById('fType').value+'\nTiming: '+document.getElementById('fTime').value,replied:false,createdAt:new Date().toISOString()});
+    inbox.push({ id: 'msg-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8), name: name, email: email, project: proj || document.getElementById('fType').value, message: msg + '\n\nNeed: ' + document.getElementById('fType').value + '\nTiming: ' + document.getElementById('fTime').value, replied: false, createdAt: new Date().toISOString() });
     writeMessages(inbox);
     briefBox.hidden = false;
-    copyMsg.textContent = 'Brief created. In this demo, the enquiry is also saved in this browser.';
+    copyMsg.textContent = 'Brief created. Copy it and send it to @pexel.sahil.';
     briefBox.scrollIntoView({ block: 'nearest' });
   });
   document.getElementById('copyBtn').addEventListener('click', function () {
@@ -1348,5 +946,5 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   route();
 })();
 </script>
-
-</body></html>
+</body>
+</html>
