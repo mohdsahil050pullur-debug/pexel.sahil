@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<title>pexel.sahil·Admin</title>
+<title>pexel.sahil · Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400..700&display=swap">
@@ -132,12 +132,12 @@ form { display: grid; gap: 18px; }
     <div class="admin-mark">p.</div>
     <div><span class="mono">Administrator sign in</span><h2 style="font-size:1.8rem;margin-top:6px">Welcome back.</h2></div>
     <form class="admin-form" id="adminLoginForm">
-      <div class="field"><label for="adminEmail">Email</label><input id="adminEmail" type="email" value="mohdsahil050pullur@gmail.com" autocomplete="username" required></div>
+      <div class="field"><label for="adminEmail">Email</label><input id="adminEmail" type="email" placeholder="you@example.com" autocomplete="username" required></div>
       <div class="field"><label for="adminPassword">Password</label><input id="adminPassword" type="password" placeholder="Enter admin password" autocomplete="current-password" required></div>
       <p class="err" id="adminLoginError" aria-live="polite"></p>
       <button class="btn primary" type="button" id="adminSignInBtn">Sign in</button>
     </form>
-    <p class="admin-note">This is a front-end demonstration login. The password sits in this file's source, so anyone who can open the file can read it. A real deployed admin area needs server-side authentication before it can safely protect member data.</p>
+    <p class="admin-note">Sign in with the admin account from your Supabase project (Authentication, then Users). Supabase checks the password; it is never stored in this file.</p>
   </div>
 
   <!-- Dashboard -->
@@ -158,7 +158,7 @@ form { display: grid; gap: 18px; }
     </div>
 
     <div class="admin-view" id="viewProjects" hidden>
-      <p class="admin-note">Add, edit, reorder, remove or upload work. Changes show on the website straight away in this browser.</p>
+      <p class="admin-note">Add, edit, reorder, remove or upload work. Changes are saved to your Supabase database and show on the website for every visitor straight away.</p>
       <form class="proj-form" id="projForm" novalidate>
         <h3 id="projFormTitle">Add a project</h3>
         <div class="two">
@@ -179,26 +179,25 @@ form { display: grid; gap: 18px; }
       </form>
       <div class="proj-list" id="projList"></div>
       <div class="tools-row">
-        <button class="mini" type="button" id="bakeBtn">Publish to website file…</button>
-        <input type="file" id="bakeFile" accept=".html,text/html" hidden>
         <button class="mini" type="button" id="exportBtn">Export projects (backup)</button>
         <label class="mini" style="cursor:pointer">Import backup<input type="file" id="importFile" accept="application/json,.json" hidden></label>
         <button class="mini danger" type="button" id="resetProj">Reset to original six</button>
       </div>
       <p class="admin-note" id="projStatus" aria-live="polite"></p>
-      <p class="admin-note"><b>How to publish:</b> project changes are saved in this browser only. Click <b>Publish to website file…</b>, choose your current <b>index.html</b>, and a new index.html with your projects built in will download. Upload it to your host in place of the old one.</p>
     </div>
 
-    <p class="admin-note">Messages come from the contact form on index.html and are saved in this browser's storage. This page only sees them if admin.html and index.html are served from the same domain and you use the same browser. To receive messages from all visitors, connect a database or backend and an email service.</p>
+    <p class="admin-note">Messages come from the contact form on index.html and are stored in your Supabase database, so you see enquiries from every visitor on any device.</p>
   </div>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function () {
   'use strict';
-  var ADMIN_EMAIL = 'mohdsahil050pullur@gmail.com';
-  // Demo-only client-side gate. Move authentication to a server before publishing.
-  var ADMIN_PASSWORD = 'pxlshl';
+  var SUPABASE_URL = 'https://pfainlgggjcubawmqmxh.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_yJw8m2wnbY8SeWINFDfMkw_I90cnEbm'; // publishable key: safe in the browser; Row Level Security does the protecting
+  var sb = null;
+  try { sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch (e) {}
 
   function escapeHTML(v) { return String(v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function val(id) { return document.getElementById(id).value.trim(); }
@@ -260,61 +259,72 @@ form { display: grid; gap: 18px; }
     { id: 'orbit', name: 'Orbit', cat: 'Motion', year: 2026, blurb: 'Onboarding animation that explains three features in nine seconds.', text: 'A concept onboarding clip for a fitness app. Each feature gets three seconds and a single change of state, then the loop repeats once so nothing is missed.', list: ['Storyboard', 'Animated sequence', 'Vertical and square cuts', 'Source project file'] },
     { id: 'pallu', name: 'Pallu Textiles', cat: 'Brand', year: 2025, blurb: 'A stripe-based identity system for a handloom label.', text: 'A concept identity for a handloom label, built from woven stripe patterns. The same stripe set becomes the logo, the swing tag and the packaging band.', list: ['Stripe pattern library', 'Logo and tag design', 'Packaging band', 'Brand guide'] }
   ];
-  var memProjects = null;
-  function loadProjects() {
-    try { var raw = localStorage.getItem('pexel-projects'); if (raw) { var a = JSON.parse(raw); if (Array.isArray(a)) return a; } } catch (e) {}
-    if (memProjects) return memProjects;
-    return DEFAULT_PROJECTS.slice();
-  }
-  var PROJECTS = loadProjects();
-  function saveProjects() {
-    memProjects = PROJECTS;
-    try { localStorage.setItem('pexel-projects', JSON.stringify(PROJECTS)); return true; } catch (e) { return false; }
-  }
 
-  /* ---------- login ---------- */
-  var memLogged = false, memMessages = null;
+  /* ---------- state + row mapping ---------- */
+  var MESSAGES = [], PROJECTS = [];
   var activeMessageId = null, activeFilter = 'all';
-  function isLogged() { try { if (sessionStorage.getItem('pexel-admin-session') === 'yes') return true; } catch (e) {} return memLogged; }
-  function setLogged(v) { memLogged = v; try { if (v) sessionStorage.setItem('pexel-admin-session', 'yes'); else sessionStorage.removeItem('pexel-admin-session'); } catch (e) {} }
-  function readMessages() { try { return JSON.parse(localStorage.getItem('pexel-messages') || '[]'); } catch (e) { return memMessages || []; } }
-  function writeMessages(items) { memMessages = items; try { localStorage.setItem('pexel-messages', JSON.stringify(items)); } catch (e) {} }
+  function mapProject(r) {
+    var o = { id: r.id, name: r.name, cat: r.cat, year: r.year, blurb: r.blurb || '', text: r.description || '', list: Array.isArray(r.list) ? r.list : [], sort_order: r.sort_order };
+    if (r.img) o.img = r.img;
+    if (r.study) o.study = true;
+    return o;
+  }
+  function toRow(p, i) {
+    return { id: p.id, name: p.name, cat: p.cat, year: p.year, blurb: p.blurb || '', description: p.text || '', list: p.list || [], img: p.img || null, study: !!p.study, sort_order: i };
+  }
 
-  function showAdmin() {
-    var logged = isLogged();
+  /* ---------- login (Supabase Auth) ---------- */
+  function showAdmin(session) {
+    var logged = !!session;
     document.getElementById('adminLogin').hidden = logged;
     document.getElementById('adminDashboard').hidden = !logged;
-    if (logged) renderAdminMessages();
+    if (logged) { loadMessages(); loadProjects(); }
   }
-  function doLogin() {
+  async function doLogin() {
     var email = document.getElementById('adminEmail').value.trim().toLowerCase();
     var pass = document.getElementById('adminPassword').value;
     var err = document.getElementById('adminLoginError');
-    if (!pass) { err.textContent = 'Enter the admin password.'; return; }
-    if (email === ADMIN_EMAIL && pass.trim() === ADMIN_PASSWORD) {
-      setLogged(true); err.textContent = ''; document.getElementById('adminPassword').value = ''; showAdmin();
-      window.scrollTo(0, 0);
-    } else err.textContent = 'Email or password is incorrect.';
+    var btn = document.getElementById('adminSignInBtn');
+    if (!sb) { err.textContent = 'Could not load Supabase. Check your internet connection and reload.'; return; }
+    if (!email || !pass) { err.textContent = 'Enter your email and password.'; return; }
+    btn.disabled = true; err.textContent = 'Signing in…';
+    var r = await sb.auth.signInWithPassword({ email: email, password: pass });
+    btn.disabled = false;
+    if (r.error) { err.textContent = /invalid login/i.test(r.error.message) ? 'Email or password is incorrect.' : r.error.message; return; }
+    err.textContent = ''; document.getElementById('adminPassword').value = '';
+    showAdmin(r.data.session);
+    window.scrollTo(0, 0);
   }
   document.getElementById('adminSignInBtn').addEventListener('click', doLogin);
   document.getElementById('adminLoginForm').addEventListener('submit', function (e) { e.preventDefault(); doLogin(); });
   document.getElementById('adminLoginForm').addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); doLogin(); } });
-  document.getElementById('adminLogout').addEventListener('click', function () { setLogged(false); activeMessageId = null; showAdmin(); });
+  document.getElementById('adminLogout').addEventListener('click', async function () {
+    if (sb) await sb.auth.signOut();
+    activeMessageId = null; MESSAGES = []; PROJECTS = [];
+    showAdmin(null);
+  });
 
   /* ---------- messages ---------- */
-  function renderAdminMessages() {
-    var all = readMessages();
-    var filtered = all.filter(function (m) { return activeFilter === 'all' || (activeFilter === 'new' && !m.replied) || (activeFilter === 'replied' && m.replied); });
+  async function loadMessages() {
     var list = document.getElementById('adminMessageList');
-    list.innerHTML = filtered.length ? filtered.slice().reverse().map(function (m) {
-      return '<button type="button" class="message-item' + (m.id === activeMessageId ? ' active' : '') + '" data-message-id="' + escapeHTML(m.id) + '"><strong>' + escapeHTML(m.name) + '</strong><small>' + escapeHTML(m.email) + ' · ' + (m.replied ? 'Replied' : 'New') + '</small><p>' + escapeHTML(m.message.slice(0, 110)) + '</p></button>';
+    var r = await sb.from('messages').select('*').order('created_at', { ascending: false });
+    if (r.error) { list.innerHTML = '<p class="admin-note">Could not load messages: ' + escapeHTML(r.error.message) + '</p>'; return; }
+    MESSAGES = r.data || [];
+    renderAdminMessages();
+  }
+  function fmtDate(d) { try { return new Date(d).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }); } catch (e) { return ''; } }
+  function renderAdminMessages() {
+    var filtered = MESSAGES.filter(function (m) { return activeFilter === 'all' || (activeFilter === 'new' && !m.replied) || (activeFilter === 'replied' && m.replied); });
+    var list = document.getElementById('adminMessageList');
+    list.innerHTML = filtered.length ? filtered.map(function (m) {
+      return '<button type="button" class="message-item' + (m.id === activeMessageId ? ' active' : '') + '" data-message-id="' + escapeHTML(m.id) + '"><strong>' + escapeHTML(m.name) + '</strong><small>' + escapeHTML(m.email) + ' · ' + (m.replied ? 'Replied' : 'New') + ' · ' + escapeHTML(fmtDate(m.created_at)) + '</small><p>' + escapeHTML(String(m.message || '').slice(0, 110)) + '</p></button>';
     }).join('') : '<p class="admin-note">No messages in this folder yet.</p>';
     document.querySelectorAll('.admin-tab').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.filter === activeFilter)); });
-    if (activeMessageId) { var found = all.find(function (m) { return m.id === activeMessageId; }); if (found) showMessage(found); else document.getElementById('adminMessageDetail').hidden = true; }
+    if (activeMessageId) { var found = MESSAGES.find(function (m) { return m.id === activeMessageId; }); if (found) showMessage(found); else document.getElementById('adminMessageDetail').hidden = true; }
   }
   function showMessage(m) {
     activeMessageId = m.id; document.getElementById('adminMessageDetail').hidden = false;
-    document.getElementById('detailStatus').textContent = m.replied ? 'Replied' : 'New message';
+    document.getElementById('detailStatus').textContent = (m.replied ? 'Replied' : 'New message') + ' · ' + fmtDate(m.created_at);
     document.getElementById('detailName').textContent = m.name;
     document.getElementById('detailEmail').textContent = m.email;
     document.getElementById('detailProject').textContent = m.project || 'Project enquiry';
@@ -324,18 +334,20 @@ form { display: grid; gap: 18px; }
   }
   document.getElementById('adminMessageList').addEventListener('click', function (e) {
     var b = e.target.closest('[data-message-id]'); if (!b) return;
-    var m = readMessages().find(function (x) { return x.id === b.dataset.messageId; });
+    var m = MESSAGES.find(function (x) { return x.id === b.dataset.messageId; });
     if (m) showMessage(m);
   });
   document.querySelectorAll('.admin-tab').forEach(function (b) { b.addEventListener('click', function () { activeFilter = b.dataset.filter; renderAdminMessages(); }); });
-  document.getElementById('sendReply').addEventListener('click', function () {
+  document.getElementById('sendReply').addEventListener('click', async function () {
     var reply = document.getElementById('adminReply').value.trim(); if (!reply || !activeMessageId) return;
-    var all = readMessages(), m = all.find(function (x) { return x.id === activeMessageId; }); if (!m) return;
-    m.reply = reply; m.replied = true; writeMessages(all);
+    var m = MESSAGES.find(function (x) { return x.id === activeMessageId; }); if (!m) return;
+    var r = await sb.from('messages').update({ reply: reply, replied: true }).eq('id', m.id);
+    if (r.error) { alert('Could not save the reply: ' + r.error.message); return; }
+    m.reply = reply; m.replied = true;
     var subject = encodeURIComponent('Re: Your enquiry to pexel.sahil');
     var body = encodeURIComponent('Hi ' + m.name + ',\n\n' + reply + '\n\nRegards,\nSahil');
-    window.location.href = 'mailto:' + encodeURIComponent(m.email) + '?subject=' + subject + '&body=' + body;
     renderAdminMessages();
+    window.location.href = 'mailto:' + encodeURIComponent(m.email) + '?subject=' + subject + '&body=' + body;
   });
 
   function arm(btn, label, action) {
@@ -345,8 +357,11 @@ form { display: grid; gap: 18px; }
   }
   document.getElementById('deleteMsg').addEventListener('click', function () {
     if (!activeMessageId) return;
-    arm(this, 'Click again to delete', function () {
-      writeMessages(readMessages().filter(function (m) { return m.id !== activeMessageId; }));
+    var id = activeMessageId;
+    arm(this, 'Click again to delete', async function () {
+      var r = await sb.from('messages').delete().eq('id', id);
+      if (r.error) { alert('Could not delete: ' + r.error.message); return; }
+      MESSAGES = MESSAGES.filter(function (m) { return m.id !== id; });
       activeMessageId = null;
       document.getElementById('adminMessageDetail').hidden = true;
       renderAdminMessages();
@@ -362,15 +377,18 @@ form { display: grid; gap: 18px; }
   }
   document.querySelectorAll('.view-tab').forEach(function (b) { b.addEventListener('click', function () { setView(b.dataset.view); }); });
 
-  /* ---------- projects ---------- */
+  /* ---------- projects (Supabase table) ---------- */
   var editingId = null, pendingImg = null, currentImg = null;
   var pStatus = document.getElementById('projStatus');
   function say(t) { pStatus.textContent = t; }
-  function persist(okMsg) {
-    var ok = saveProjects();
+  async function loadProjects() {
+    var r = await sb.from('projects').select('*').order('sort_order', { ascending: true }).order('created_at', { ascending: false });
+    if (r.error) { say('Could not load projects: ' + r.error.message); return false; }
+    PROJECTS = (r.data || []).map(mapProject);
     renderAdminProjects();
-    say(ok ? okMsg : okMsg + ' (Browser storage is blocked here, so this lasts only until you close the page. Use "Publish to website file…" to keep it.)');
+    return true;
   }
+  async function refresh(okMsg) { if (await loadProjects()) say(okMsg); }
   function renderAdminProjects() {
     var list = document.getElementById('projList');
     if (!PROJECTS.length) { list.innerHTML = '<p class="admin-note">No projects. Add one above.</p>'; return; }
@@ -422,36 +440,53 @@ form { display: grid; gap: 18px; }
       pendingImg = d; document.getElementById('pErr').textContent = ''; showPrev(d);
     });
   });
-  document.getElementById('projForm').addEventListener('submit', function (e) {
+  document.getElementById('projForm').addEventListener('submit', async function (e) {
     e.preventDefault();
     var name = val('pName'), blurb = val('pBlurb');
     if (!name || !blurb) { document.getElementById('pErr').textContent = 'Add a project name and a one-line summary.'; return; }
     var year = parseInt(document.getElementById('pYear').value, 10) || new Date().getFullYear();
     var list = document.getElementById('pList').value.split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
-    var data = { name: name, cat: document.getElementById('pCat').value, year: year, blurb: blurb, text: val('pText') || blurb, list: list };
+    var fields = { name: name, cat: document.getElementById('pCat').value, year: year, blurb: blurb, description: val('pText') || blurb, list: list };
+    var saveBtn = document.getElementById('pSave');
+    saveBtn.disabled = true; say('Saving…');
+    var r, msg;
     if (editingId) {
-      var p = PROJECTS.filter(function (x) { return x.id === editingId; })[0];
-      if (p) {
-        for (var k in data) p[k] = data[k];
-        if (pendingImg) p.img = pendingImg; else if (document.getElementById('pClear').checked) delete p.img;
-      }
-      resetForm(); persist('Project updated.');
+      if (pendingImg) fields.img = pendingImg; else if (document.getElementById('pClear').checked) fields.img = null;
+      r = await sb.from('projects').update(fields).eq('id', editingId);
+      msg = 'Project updated.';
     } else {
-      data.id = 'p-' + Date.now().toString(36);
-      if (pendingImg) data.img = pendingImg;
-      PROJECTS.unshift(data);
-      resetForm(); persist('Project added. It is now first on Home and Work.');
+      fields.id = 'p-' + Date.now().toString(36);
+      fields.img = pendingImg || null;
+      fields.study = false;
+      fields.sort_order = PROJECTS.length ? Math.min.apply(null, PROJECTS.map(function (p) { return p.sort_order; })) - 1 : 0;
+      r = await sb.from('projects').insert(fields);
+      msg = 'Project added. It is now first on Home and Work.';
     }
+    saveBtn.disabled = false;
+    if (r.error) { say('Could not save: ' + r.error.message); return; }
+    resetForm(); await refresh(msg);
   });
   document.getElementById('pCancel').addEventListener('click', function () { resetForm(); say(''); });
+
+  async function move(idx, dir) {
+    var j = idx + dir;
+    if (j < 0 || j >= PROJECTS.length) return;
+    var arr = PROJECTS.slice(), t = arr[idx]; arr[idx] = arr[j]; arr[j] = t;
+    var jobs = [];
+    arr.forEach(function (p, i) { if (p.sort_order !== i) jobs.push(sb.from('projects').update({ sort_order: i }).eq('id', p.id)); });
+    var rs = await Promise.all(jobs);
+    var bad = rs.filter(function (r) { return r.error; })[0];
+    if (bad) { say('Could not reorder: ' + bad.error.message); return; }
+    await refresh('Order updated.');
+  }
   document.getElementById('projList').addEventListener('click', function (e) {
     var b = e.target.closest ? e.target.closest('[data-act]') : null;
     if (!b) return;
     var id = b.dataset.id, act = b.dataset.act;
     var idx = PROJECTS.findIndex(function (x) { return x.id === id; });
     if (idx < 0) return;
-    if (act === 'up' && idx > 0) { var t = PROJECTS[idx]; PROJECTS[idx] = PROJECTS[idx - 1]; PROJECTS[idx - 1] = t; persist('Order updated.'); }
-    else if (act === 'down' && idx < PROJECTS.length - 1) { var t2 = PROJECTS[idx]; PROJECTS[idx] = PROJECTS[idx + 1]; PROJECTS[idx + 1] = t2; persist('Order updated.'); }
+    if (act === 'up') move(idx, -1);
+    else if (act === 'down') move(idx, 1);
     else if (act === 'edit') {
       var p = PROJECTS[idx]; resetForm(); editingId = id; currentImg = p.img || null;
       document.getElementById('pName').value = p.name; document.getElementById('pCat').value = p.cat;
@@ -465,17 +500,31 @@ form { display: grid; gap: 18px; }
       document.getElementById('projForm').scrollIntoView({ block: 'nearest' });
     }
     else if (act === 'del') {
-      arm(b, 'Click again to remove', function () {
-        PROJECTS.splice(idx, 1);
+      arm(b, 'Click again to remove', async function () {
+        var r = await sb.from('projects').delete().eq('id', id);
+        if (r.error) { say('Could not remove: ' + r.error.message); return; }
         if (editingId === id) resetForm();
-        persist('Project removed.');
+        await refresh('Project removed.');
       });
     }
   });
+
+  // Make the table match `list` exactly (used by Reset and Import).
+  async function replaceAll(list, msg) {
+    var r;
+    if (list.length) {
+      r = await sb.from('projects').upsert(list.map(toRow));
+      if (r.error) { say('Could not save: ' + r.error.message); return; }
+      var ids = list.map(function (p) { return '"' + p.id + '"'; }).join(',');
+      r = await sb.from('projects').delete().not('id', 'in', '(' + ids + ')');
+    } else {
+      r = await sb.from('projects').delete().neq('id', '');
+    }
+    if (r.error) { say('Could not finish: ' + r.error.message); return; }
+    resetForm(); await refresh(msg);
+  }
   document.getElementById('resetProj').addEventListener('click', function () {
-    arm(this, 'Click again to reset', function () {
-      PROJECTS = DEFAULT_PROJECTS.slice(); resetForm(); persist('Restored the original six projects.');
-    });
+    arm(this, 'Click again to reset', function () { replaceAll(DEFAULT_PROJECTS.slice(), 'Restored the original six projects.'); });
   });
 
   function download(name, text, type) {
@@ -495,38 +544,26 @@ form { display: grid; gap: 18px; }
         var a = JSON.parse(fr.result);
         if (!Array.isArray(a)) throw 0;
         var clean = a.filter(function (x) { return x && typeof x.name === 'string'; }).map(function (x, i) {
-          var o = { id: String(x.id || ('p-i' + i + Date.now().toString(36))), name: String(x.name).slice(0, 80), cat: String(x.cat || 'Brand').slice(0, 30), year: parseInt(x.year, 10) || new Date().getFullYear(), blurb: String(x.blurb || ''), text: String(x.text || x.blurb || ''), list: Array.isArray(x.list) ? x.list.map(String) : [] };
+          var id = String(x.id || '').replace(/[^\w-]/g, '') || ('p-i' + i + Date.now().toString(36));
+          var o = { id: id, name: String(x.name).slice(0, 80), cat: String(x.cat || 'Brand').slice(0, 30), year: parseInt(x.year, 10) || new Date().getFullYear(), blurb: String(x.blurb || ''), text: String(x.text || x.blurb || ''), list: Array.isArray(x.list) ? x.list.map(String) : [] };
           if (typeof x.img === 'string' && x.img.indexOf('data:image/') === 0) o.img = x.img;
           if (x.study) o.study = true;
           return o;
         });
-        PROJECTS = clean; resetForm(); persist('Backup imported: ' + clean.length + ' projects.');
+        replaceAll(clean, 'Backup imported: ' + clean.length + ' projects.');
       } catch (e) { say('That file is not a valid projects backup.'); }
       input.value = '';
     };
     fr.readAsText(f);
   });
 
-  /* Publish: take the public index.html, replace its siteData block, download the result. */
-  document.getElementById('bakeBtn').addEventListener('click', function () { document.getElementById('bakeFile').click(); });
-  document.getElementById('bakeFile').addEventListener('change', function () {
-    var f = this.files && this.files[0], input = this;
-    if (!f) return;
-    var fr = new FileReader();
-    fr.onload = function () {
-      var html = String(fr.result);
-      var re = /(<script type="application\/json" id="siteData">)[\s\S]*?(<\/script>)/;
-      if (!re.test(html)) { say('That file does not look like the pexel.sahil index.html (no siteData block found).'); input.value = ''; return; }
-      var json = JSON.stringify(PROJECTS).replace(/</g, '\\u003c');
-      var out = html.replace(re, function (m, a, b) { return a + json + b; });
-      download('index.html', out, 'text/html');
-      say('Downloaded index.html with your current projects built in. Upload it to your host to publish.');
-      input.value = '';
-    };
-    fr.readAsText(f);
-  });
-
-  showAdmin();
+  /* ---------- start: restore an existing Supabase session ---------- */
+  if (sb) {
+    sb.auth.getSession().then(function (r) { showAdmin(r.data && r.data.session); });
+    sb.auth.onAuthStateChange(function (ev) { if (ev === 'SIGNED_OUT') showAdmin(null); });
+  } else {
+    document.getElementById('adminLoginError').textContent = 'Could not load Supabase. Check your internet connection and reload.';
+  }
 })();
 </script>
 </body>
