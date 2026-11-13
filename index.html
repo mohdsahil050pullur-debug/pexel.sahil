@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>pexel.sahil</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADcAAABSCAYAAADw4kyvAAACwklEQVR42u3bO2hTURgH8P+55nGvyTVpoqblpulS0igNqaGUgkEJgoqPwUEdUuhQncwkOHTysZUWXJykDoKL2NlB3UwRxCFBUJpFWlB6aWgS01eSNtelLTH1VYgX7sf3jYHLzY/v3PP4zjnio24Y5SpMiXdzBeR1c172OKUlbeUqUFgzB5fXq/iwsA6zQgLhYBzjGMc4xjGOcYxjnCmhyhIAlEji+o46IYTIcrO0WtgPCJ0szqNIWZI4VZageRwzJHH9XbKeTvqnyeFUWUK3zzFBskMZ6nHNjp878pAcLqrJ+UinM0VuKIhqcv5Ur/vsjZMd882/26z+jQ31uGYjnc5UK8yyOFWW0N8l690+x0TzN2ZJ3GBI2Z15eBQpq3kcMzvd/Z9CTL5eMswqcY9f1LBa2/9zreV+m4TcQTsyNgcmj3eI+d9mzswS97dK20r3MQAxjxO3crrx1O7A3V8hLd1blqvAlyJGl8p4NbdsJEiuCoobCC8U8bIVSGYQX61DXfyOJ5+KRg/J6VdxA+F6DffJLlaX1zC6kz1yuHIV2KzhDtmV+FodCbK4zQZiXJS1aLOEYRgDZHEAvNwsGcc4xrUPt7NpQBJ32C1lyOLCAeXF9k4kPdzIkPd5PKjkyHYo0ZCc1rz2Cknc2LAvc/6Yepta89zVpJP+6WsnvDcpZfCnVKWT/ukr8UMXTve6chSyuKecPjbsywAYePa+dD2vr18trDQS9S0jAMDU88ntCEH4dPplyqfTV3jizDjGMY5xjGMc4xjHOMYxjmD0BZwAQPNegeqUIIQo8b0C8L0Cvlfw3yMeVHIk7xVoXnslGpLT5IYCVZYwGFKmtuuuACx+Or05Y4MhZerepcADUDp6Hw8quWhITjdnzJK4/Z5SF28+Vx6Z9efORNxvAezZg19cQbLRgP9vz9e28LUh8E8la8mA8gNbL940vwL0fwAAAABJRU5ErkJggg==">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400..700&display=swap">
@@ -59,7 +60,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .site { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); border-bottom: 1px solid var(--line); }
 .bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding-block: 12px; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--f-display); font-weight: 700; font-size: 20px; letter-spacing: -0.02em; margin-right: auto; }
-.brand svg { width: 22px; height: 22px; flex: none; }
+.brand img { height: 30px; width: auto; flex: none; display: block; }
 .brand .dot { color: var(--accent); }
 .nav { display: flex; align-items: center; gap: 4px; }
 .nav a { text-decoration: none; font-size: 14px; font-weight: 500; padding: 8px 10px; border-radius: var(--r); color: var(--muted); }
@@ -251,15 +252,31 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 .m-body ul li { padding: 8px 0; border-bottom: 1px solid var(--line); }
 .m-body .mono { margin-top: 6px; }
 
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
+/* Loading screen (timing taken from the supplied screen recording: 10 s total) */
+#loader { position: fixed; inset: 0; z-index: 100; background: var(--bg); display: grid; place-items: center; animation: ldHide .5s ease 10s forwards; }
+.ld { display: grid; justify-items: center; gap: 14px; }
+.ld-sq { width: 28px; height: 28px; background: #5E93FE; animation: ldSpin 2s infinite; animation-delay: 2.6s; }
+.ld-txt { font: 700 15px/1 var(--f-display); letter-spacing: -0.01em; color: #5B84F5; }
+@keyframes ldSpin {
+  0%   { transform: rotate(0deg) scale(1);      animation-timing-function: ease-in-out; }
+  45%  { transform: rotate(45deg) scale(.73);   animation-timing-function: ease-in-out; }
+  90%  { transform: rotate(88deg) scale(1);     animation-timing-function: ease-out; }
+  94%  { transform: rotate(118deg) scale(1.38); animation-timing-function: ease-in; }
+  100% { transform: rotate(90deg) scale(1); }
+}
+@keyframes ldHide { to { opacity: 0; visibility: hidden; } }
+
+@media (prefers-reduced-motion: reduce) { #loader { display: none; } * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
 </style>
 </head>
 <body>
 
+<div id="loader" role="status" aria-label="Loading pexel.sahil"><div class="ld"><div class="ld-sq"></div><div class="ld-txt">pexel.sahil</div></div></div>
+
 <header class="site">
   <div class="wrap bar">
     <a class="brand" href="#home" aria-label="pexel.sahil, home">
-      <svg viewBox="0 0 3 3" shape-rendering="crispEdges" aria-hidden="true"><rect x="0" y="0" width="1" height="1" fill="var(--ink)"/><rect x="2" y="0" width="1" height="1" fill="var(--ink)"/><rect x="1" y="1" width="1" height="1" fill="var(--accent)"/><rect x="0" y="2" width="1" height="1" fill="var(--ink)"/><rect x="2" y="2" width="1" height="1" fill="var(--ink)"/></svg>
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADcAAABSCAYAAADw4kyvAAACwklEQVR42u3bO2hTURgH8P+55nGvyTVpoqblpulS0igNqaGUgkEJgoqPwUEdUuhQncwkOHTysZUWXJykDoKL2NlB3UwRxCFBUJpFWlB6aWgS01eSNtelLTH1VYgX7sf3jYHLzY/v3PP4zjnio24Y5SpMiXdzBeR1c172OKUlbeUqUFgzB5fXq/iwsA6zQgLhYBzjGMc4xjGOcYxjnCmhyhIAlEji+o46IYTIcrO0WtgPCJ0szqNIWZI4VZageRwzJHH9XbKeTvqnyeFUWUK3zzFBskMZ6nHNjp878pAcLqrJ+UinM0VuKIhqcv5Ur/vsjZMd882/26z+jQ31uGYjnc5UK8yyOFWW0N8l690+x0TzN2ZJ3GBI2Z15eBQpq3kcMzvd/Z9CTL5eMswqcY9f1LBa2/9zreV+m4TcQTsyNgcmj3eI+d9mzswS97dK20r3MQAxjxO3crrx1O7A3V8hLd1blqvAlyJGl8p4NbdsJEiuCoobCC8U8bIVSGYQX61DXfyOJ5+KRg/J6VdxA+F6DffJLlaX1zC6kz1yuHIV2KzhDtmV+FodCbK4zQZiXJS1aLOEYRgDZHEAvNwsGcc4xrUPt7NpQBJ32C1lyOLCAeXF9k4kPdzIkPd5PKjkyHYo0ZCc1rz2Cknc2LAvc/6Yepta89zVpJP+6WsnvDcpZfCnVKWT/ukr8UMXTve6chSyuKecPjbsywAYePa+dD2vr18trDQS9S0jAMDU88ntCEH4dPplyqfTV3jizDjGMY5xjGMc4xjHOMYxjmD0BZwAQPNegeqUIIQo8b0C8L0Cvlfw3yMeVHIk7xVoXnslGpLT5IYCVZYwGFKmtuuuACx+Or05Y4MhZerepcADUDp6Hw8quWhITjdnzJK4/Z5SF28+Vx6Z9efORNxvAezZg19cQbLRgP9vz9e28LUh8E8la8mA8gNbL940vwL0fwAAAABJRU5ErkJggg==" alt="" width="20" height="30">
       <span>pexel<span class="dot">.</span>sahil</span>
     </a>
     <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav">Menu</button>
@@ -283,7 +300,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   <div class="wrap">
     <div class="hero">
       <div>
-        <span class="mono status"><i></i>Proffessional studio · Book fastly</span>
+        <span class="mono status"><i></i>Independent studio · Booking from January 2027</span>
         <h1>Brands and interfaces drawn at <em>full resolution.</em></h1>
         <p class="lead">pexel.sahil is the studio of Sahil, an independent designer making identities, websites and apps for small teams that want to look as good as they work.</p>
         <div class="row">
@@ -544,7 +561,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
     <div class="page-head">
       <span class="mono">Contact</span>
       <h1>Start a project.</h1>
-      <p class="lead">Fill in the short form and your brief goes straight to Sahil. Expect a reply within two working days.</p>
+      <p class="lead">Fill in the short form and your message goes straight to Sahil. Expect a reply within two working days.</p>
     </div>
     <div class="contact">
       <div>
@@ -561,13 +578,14 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
               <select id="fTime"><option>Within a month</option><option>In one to three months</option><option>Flexible</option></select></div>
           </div>
           <div class="field"><label for="fMsg">Tell me about it</label><textarea id="fMsg" maxlength="3500" placeholder="Who is it for, what should it do, and what do you like or dislike?"></textarea><span class="err" id="eMsg" aria-live="polite"></span></div>
-          <div><button class="btn primary" type="submit">Build my brief</button></div>
+          <div><button class="btn primary" type="submit">Send message</button></div>
+          <p class="err" id="eSend" aria-live="polite"></p>
         </form>
-        <div class="brief" id="briefBox" hidden>
-          <span class="mono">Your brief</span>
-          <textarea id="briefOut" readonly aria-label="Your brief, ready to copy"></textarea>
-          <div class="row" style="align-items:center"><button class="btn primary" type="button" id="copyBtn">Copy brief</button><span id="copyMsg" class="mono" aria-live="polite"></span></div>
-          <p style="color:var(--muted);font-size:15px">Send the copied text to Sahil by direct message at <b style="color:var(--ink)">@pexel.sahil</b>.</p>
+        <div class="brief" id="sentBox" hidden role="status">
+          <span class="mono">Message sent</span>
+          <h3 style="font-size:1.4rem">Thanks, your message is with Sahil.</h3>
+          <p style="color:var(--muted);font-size:15px">It has landed in the admin inbox. Expect a reply by email within two working days.</p>
+          <div><button class="btn" type="button" id="sendAnother">Send another message</button></div>
         </div>
       </div>
       <aside class="side">
@@ -916,46 +934,33 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
     try { localStorage.setItem('pexel-theme', next); } catch (e) {}
   });
 
-  /* ---------- contact form ---------- */
+  /* ---------- contact form (saved to Supabase, appears in the admin panel) ---------- */
   var form = document.getElementById('briefForm');
-  var briefBox = document.getElementById('briefBox'), briefOut = document.getElementById('briefOut'), copyMsg = document.getElementById('copyMsg');
+  var sentBox = document.getElementById('sentBox');
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   function val(id) { return document.getElementById(id).value.trim(); }
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var ok = true;
     var name = val('fName'), email = val('fEmail'), msg = val('fMsg');
-    document.getElementById('eName').textContent = name ? '' : 'Enter your name so I know who to reply to.';
-    document.getElementById('eEmail').textContent = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? '' : 'Enter an email address like name@example.com.';
-    document.getElementById('eMsg').textContent = msg.length >= 10 ? '' : 'Add a sentence or two about the project.';
-    if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || msg.length < 10) ok = false;
-    if (!ok) return;
-    var proj = val('fProject');
-    briefOut.value = 'New project brief for pexel.sahil\n\n' +
-      'Name: ' + name + '\n' +
-      'Email: ' + email + '\n' +
-      (proj ? 'Project: ' + proj + '\n' : '') +
-      'Needs: ' + document.getElementById('fType').value + '\n' +
-      'Timing: ' + document.getElementById('fTime').value + '\n\n' +
-      'About the project:\n' + msg + '\n';
-    briefBox.hidden = false;
-    briefBox.scrollIntoView({ block: 'nearest' });
-    var submitBtn = form.querySelector('button[type="submit"]');
-    copyMsg.textContent = 'Sending…';
-    if (submitBtn) submitBtn.disabled = true;
-    var row = { name: name, email: email, project: proj || document.getElementById('fType').value, message: msg + '\n\nNeed: ' + document.getElementById('fType').value + '\nTiming: ' + document.getElementById('fTime').value };
-    function done(ok) {
-      copyMsg.textContent = ok ? 'Sent to Sahil. You can also copy the brief below.' : 'Could not send automatically. Copy the brief and send it to @pexel.sahil.';
-      if (submitBtn) submitBtn.disabled = false;
+    var okName = !!name, okEmail = EMAIL_RE.test(email), okMsg = msg.length >= 10;
+    document.getElementById('eName').textContent = okName ? '' : 'Enter your name so I know who to reply to.';
+    document.getElementById('eEmail').textContent = okEmail ? '' : 'Enter an email address like name@example.com.';
+    document.getElementById('eMsg').textContent = okMsg ? '' : 'Add a sentence or two about the project.';
+    if (!(okName && okEmail && okMsg)) return;
+    var sendErr = document.getElementById('eSend'), btn = form.querySelector('button[type="submit"]');
+    sendErr.textContent = '';
+    btn.disabled = true; btn.textContent = 'Sending…';
+    var type = document.getElementById('fType').value;
+    var row = { name: name, email: email, project: val('fProject') || type, message: msg + '\n\nNeed: ' + type + '\nTiming: ' + document.getElementById('fTime').value };
+    function finish(ok) {
+      btn.disabled = false; btn.textContent = 'Send message';
+      if (ok) { form.reset(); form.hidden = true; sentBox.hidden = false; sentBox.scrollIntoView({ block: 'nearest' }); }
+      else sendErr.textContent = 'Your message could not be sent. Check your connection and try again.';
     }
-    if (!sb) { done(false); return; }
-    sb.from('messages').insert(row).then(function (res) { done(!res.error); }, function () { done(false); });
+    if (!sb) { finish(false); return; }
+    sb.from('messages').insert(row).then(function (res) { finish(!res.error); }, function () { finish(false); });
   });
-  document.getElementById('copyBtn').addEventListener('click', function () {
-    function fallback() { briefOut.focus(); briefOut.select(); copyMsg.textContent = 'Text selected. Press copy on your device.'; }
-    try {
-      navigator.clipboard.writeText(briefOut.value).then(function () { copyMsg.textContent = 'Copied'; }, fallback);
-    } catch (err) { fallback(); }
-  });
+  document.getElementById('sendAnother').addEventListener('click', function () { sentBox.hidden = true; form.hidden = false; });
 
   /* ---------- start ---------- */
   renderFeatured();
