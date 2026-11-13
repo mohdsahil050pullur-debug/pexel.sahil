@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>pexel.sahil · Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400..700&display=swap">
+<style>
+:root {
+  --bg: #F3F5F9; --surface: #FFFFFF; --ink: #0E1220; --muted: #566074; --line: #D9DEE8;
+  --accent: #2D3BFF; --accent-ink: #FFFFFF; --accent-soft: #E3E6FF;
+  --f-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --f-body: 'Instrument Sans', 'Segoe UI', system-ui, sans-serif;
+  --f-mono: 'DM Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --r: 2px; color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B0D14; --surface: #141824; --ink: #EEF0F7; --muted: #9AA3B8;
+    --line: #262C3D; --accent: #7F8CFF; --accent-ink: #0B0D14; --accent-soft: #1E2347; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B0D14; --surface: #141824; --ink: #EEF0F7; --muted: #9AA3B8;
+  --line: #262C3D; --accent: #7F8CFF; --accent-ink: #0B0D14; --accent-soft: #1E2347; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden]:not([hidden=until-found i]) { display: none !important; }
+body { margin: 0; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+img, svg { max-width: 100%; }
+h1, h2, h3 { font-family: var(--f-display); margin: 0; letter-spacing: -0.015em; line-height: 1.1; }
+p { margin: 0; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.wrap { width: 100%; max-width: 1180px; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.mono { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.row { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.site { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); border-bottom: 1px solid var(--line); }
+.bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding-block: 12px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--f-display); font-weight: 700; font-size: 20px; letter-spacing: -0.02em; margin-right: auto; }
+.brand .dot { color: var(--accent); }
+.icon-btn { font: 500 13px var(--f-mono); letter-spacing: 0.04em; background: transparent; color: var(--ink); border: 1px solid var(--line); border-radius: var(--r); padding: 8px 12px; cursor: pointer; text-decoration: none; }
+.icon-btn:hover { border-color: var(--accent); }
+
+.btn { display: inline-flex; align-items: center; gap: 8px; font: 600 15px var(--f-body); text-decoration: none; padding: 13px 20px; border-radius: var(--r); border: 1px solid var(--ink); background: transparent; color: var(--ink); cursor: pointer; }
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+
+.field { display: grid; gap: 6px; }
+.field label { font-weight: 600; font-size: 14px; }
+.field label small { font-weight: 400; color: var(--muted); }
+input, select, textarea { width: 100%; font: 400 16px var(--f-body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; }
+textarea { resize: vertical; min-height: 130px; }
+input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 0; border-color: var(--accent); }
+form { display: grid; gap: 18px; }
+.two { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+.err { color: var(--accent); font-size: 14px; min-height: 1.2em; font-weight: 500; }
+
+.page-head { padding-block: clamp(32px, 6vw, 64px) 24px; }
+.page-head h1 { font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 700; margin-top: 14px; }
+.page-head p.lead { margin-top: 14px; max-width: 60ch; color: var(--muted); }
+
+.cv { aspect-ratio: 4 / 3; max-width: 100%; border-bottom: 1px solid var(--line); overflow: hidden; background: var(--accent-soft); }
+.cv svg { display: block; width: 100%; height: 100%; }
+.cv img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.cv .a { fill: var(--accent); } .cv .i { fill: var(--ink); } .cv .s { fill: var(--surface); }
+.cv .t { fill: var(--accent-soft); } .cv .m { fill: var(--muted); } .cv .l { fill: var(--line); }
+.cv .sa { fill: none; stroke: var(--accent); stroke-width: 3; } .cv .sl { fill: none; stroke: var(--line); stroke-width: 1; }
+
+.admin-wrap { max-width: 760px; margin-inline: auto; padding-bottom: 64px; }
+.admin-panel { background: var(--surface); border: 1px solid var(--line); padding: clamp(22px, 4vw, 38px); display: grid; gap: 20px; }
+.admin-mark { width: 44px; height: 44px; border: 1px solid var(--line); display: grid; place-items: center; font: 700 22px var(--f-display); color: var(--accent); }
+.admin-form { max-width: 420px; display: grid; gap: 16px; }
+.admin-form input { min-height: 52px; border-radius: 0; }
+.admin-tabs { display: flex; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid var(--line); padding-bottom: 14px; }
+.admin-tab { border: 1px solid var(--line); background: transparent; color: var(--ink); padding: 9px 14px; font: 500 13px var(--f-mono); cursor: pointer; }
+.admin-tab[aria-pressed=true] { background: var(--ink); color: var(--bg); }
+.message-list { display: grid; gap: 10px; }
+.message-item { width: 100%; text-align: left; border: 1px solid var(--line); background: var(--surface); padding: 16px; cursor: pointer; color: var(--ink); font: inherit; }
+.message-item:hover, .message-item.active { border-color: var(--accent); }
+.message-item strong { display: block; font-family: var(--f-display); font-size: 17px; }
+.message-item small { color: var(--muted); }
+.message-detail { border: 1px solid var(--line); padding: 18px; display: grid; gap: 14px; background: var(--surface); }
+.message-detail textarea { min-height: 120px; border-radius: 0; }
+.admin-note { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.admin-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.view-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.view-tab { border: 1px solid var(--line); background: transparent; color: var(--ink); padding: 10px 16px; font: 500 13px var(--f-mono); cursor: pointer; border-radius: var(--r); }
+.view-tab[aria-pressed=true] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.admin-view { display: grid; gap: 20px; }
+.proj-form { display: grid; gap: 14px; border: 1px solid var(--line); padding: 18px; background: var(--bg); }
+.proj-form h3 { font-size: 1.3rem; }
+.proj-list { display: grid; gap: 10px; }
+.proj-row { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; border: 1px solid var(--line); padding: 12px; background: var(--bg); }
+.proj-row .info { display: flex; gap: 12px; align-items: center; min-width: 0; flex: 1 1 220px; }
+.proj-row .info strong { display: block; font-family: var(--f-display); font-size: 16px; overflow-wrap: anywhere; }
+.thumb { width: 64px; height: 48px; aspect-ratio: auto; border: 1px solid var(--line); flex: none; overflow: hidden; }
+.proj-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.mini { font: 500 12px var(--f-mono); padding: 8px 10px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; border-radius: var(--r); }
+.mini:hover { border-color: var(--accent); }
+.mini:disabled { opacity: .4; cursor: default; }
+.mini.danger.armed { background: #C2261B; border-color: #C2261B; color: #fff; }
+.img-prev { width: 160px; height: 120px; border: 1px solid var(--line); overflow: hidden; background: var(--surface); }
+.img-prev img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tools-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap bar">
+    <a class="brand" href="index.html" aria-label="Back to the website">pexel<span class="dot">.</span>sahil <span class="mono" style="margin-left:6px">Admin</span></a>
+    <a class="icon-btn" href="index.html">← View website</a>
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme">Theme</button>
+  </div>
+</header>
+
+<main class="wrap admin-wrap">
+  <div class="page-head">
+    <span class="mono">Private workspace</span>
+    <h1>Admin access.</h1>
+    <p class="lead">Manage project enquiries and the work shown on the website.</p>
+  </div>
+
+  <!-- Login -->
+  <div class="admin-panel" id="adminLogin">
+    <div class="admin-mark">p.</div>
+    <div><span class="mono">Administrator sign in</span><h2 style="font-size:1.8rem;margin-top:6px">Welcome back.</h2></div>
+    <form class="admin-form" id="adminLoginForm">
+      <div class="field"><label for="adminEmail">Email</label><input id="adminEmail" type="email" value="mohdsahil050pullur@gmail.com" autocomplete="username" required></div>
+      <div class="field"><label for="adminPassword">Password</label><input id="adminPassword" type="password" placeholder="Enter admin password" autocomplete="current-password" required></div>
+      <p class="err" id="adminLoginError" aria-live="polite"></p>
+      <button class="btn primary" type="button" id="adminSignInBtn">Sign in</button>
+    </form>
+    <p class="admin-note">This is a front-end demonstration login. The password sits in this file's source, so anyone who can open the file can read it. A real deployed admin area needs server-side authentication before it can safely protect member data.</p>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="admin-panel" id="adminDashboard" hidden>
+    <div class="admin-top"><div><span class="mono">Dashboard</span><h2 style="font-size:2rem;margin-top:5px">Site manager</h2></div><button class="btn" type="button" id="adminLogout">Sign out</button></div>
+    <div class="view-tabs"><button class="view-tab" type="button" data-view="messages" aria-pressed="true">Messages</button><button class="view-tab" type="button" data-view="projects" aria-pressed="false">Projects &amp; work</button></div>
+
+    <div class="admin-view" id="viewMessages">
+      <div class="admin-tabs"><button class="admin-tab" type="button" data-filter="all" aria-pressed="true">All messages</button><button class="admin-tab" type="button" data-filter="new" aria-pressed="false">New</button><button class="admin-tab" type="button" data-filter="replied" aria-pressed="false">Replied</button></div>
+      <div class="message-list" id="adminMessageList"></div>
+      <div class="message-detail" id="adminMessageDetail" hidden>
+        <div><span class="mono" id="detailStatus"></span><h3 id="detailName" style="margin-top:6px"></h3><p id="detailEmail" style="color:var(--muted);overflow-wrap:anywhere"></p></div>
+        <p id="detailProject" style="font-weight:600"></p><p id="detailMessage" style="white-space:pre-wrap"></p>
+        <div class="field"><label for="adminReply">Personal reply</label><textarea id="adminReply" placeholder="Write your reply to this member..."></textarea></div>
+        <div class="row"><button class="btn primary" type="button" id="sendReply">Reply by email</button><button class="btn" type="button" id="deleteMsg">Delete message</button></div>
+        <p class="admin-note">Reply opens your email app with the member's address and your message filled in. You must press Send in your email app.</p>
+      </div>
+    </div>
+
+    <div class="admin-view" id="viewProjects" hidden>
+      <p class="admin-note">Add, edit, reorder, remove or upload work. Changes show on the website straight away in this browser.</p>
+      <form class="proj-form" id="projForm" novalidate>
+        <h3 id="projFormTitle">Add a project</h3>
+        <div class="two">
+          <div class="field"><label for="pName">Project name</label><input id="pName" type="text" maxlength="80"></div>
+          <div class="field"><label for="pCat">Discipline</label><select id="pCat"><option>Brand</option><option>Interface</option><option>Motion</option><option>Print</option></select></div>
+        </div>
+        <div class="two">
+          <div class="field"><label for="pYear">Year</label><input id="pYear" type="number" min="2000" max="2100" value="2026"></div>
+          <div class="field"><label for="pImg">Cover image <small>(optional upload)</small></label><input id="pImg" type="file" accept="image/*"></div>
+        </div>
+        <div class="img-prev" id="pPrev" hidden></div>
+        <label id="pClearWrap" hidden style="font-size:14px"><input type="checkbox" id="pClear" style="width:auto"> Remove current image</label>
+        <div class="field"><label for="pBlurb">One-line summary</label><input id="pBlurb" type="text" maxlength="140"></div>
+        <div class="field"><label for="pText">Description</label><textarea id="pText" placeholder="What was the project and what did you do?"></textarea></div>
+        <div class="field"><label for="pList">Deliverables <small>(one per line)</small></label><textarea id="pList" style="min-height:90px"></textarea></div>
+        <p class="err" id="pErr" aria-live="polite"></p>
+        <div class="row"><button class="btn primary" type="submit" id="pSave">Add project</button><button class="btn" type="button" id="pCancel" hidden>Cancel edit</button></div>
+      </form>
+      <div class="proj-list" id="projList"></div>
+      <div class="tools-row">
+        <button class="mini" type="button" id="bakeBtn">Publish to website file…</button>
+        <input type="file" id="bakeFile" accept=".html,text/html" hidden>
+        <button class="mini" type="button" id="exportBtn">Export projects (backup)</button>
+        <label class="mini" style="cursor:pointer">Import backup<input type="file" id="importFile" accept="application/json,.json" hidden></label>
+        <button class="mini danger" type="button" id="resetProj">Reset to original six</button>
+      </div>
+      <p class="admin-note" id="projStatus" aria-live="polite"></p>
+      <p class="admin-note"><b>How to publish:</b> project changes are saved in this browser only. Click <b>Publish to website file…</b>, choose your current <b>index.html</b>, and a new index.html with your projects built in will download. Upload it to your host in place of the old one.</p>
+    </div>
+
+    <p class="admin-note">Messages come from the contact form on index.html and are saved in this browser's storage. This page only sees them if admin.html and index.html are served from the same domain and you use the same browser. To receive messages from all visitors, connect a database or backend and an email service.</p>
+  </div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  var ADMIN_EMAIL = 'mohdsahil050pullur@gmail.com';
+  // Demo-only client-side gate. Move authentication to a server before publishing.
+  var ADMIN_PASSWORD = 'pxlshl';
+
+  function escapeHTML(v) { return String(v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function val(id) { return document.getElementById(id).value.trim(); }
+
+  /* ---------- theme ---------- */
+  var root = document.documentElement;
+  try { var saved = localStorage.getItem('pexel-theme'); if (saved === 'dark' || saved === 'light') root.setAttribute('data-theme', saved); } catch (e) {}
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var cur = root.getAttribute('data-theme') || ((window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light');
+    var next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('pexel-theme', next); } catch (e) {}
+  });
+
+  /* ---------- cover artwork (for thumbnails) ---------- */
+  var BEAN = ['..XXXXX..', '.XXXXXXX.', 'XXXXXXXXX', 'XXXXXXXXX', 'XXXXXXXXX', 'XXXXXXXXX', 'XXXXXXXXX', '.XXXXXXX.', '..XXXXX..'];
+  var CREASE = { '1,5': 1, '2,5': 1, '3,4': 1, '4,4': 1, '5,4': 1, '6,3': 1, '7,3': 1 };
+  function bean(x, y, s, fill, crease) {
+    var o = '';
+    for (var j = 0; j < BEAN.length; j++) for (var i = 0; i < BEAN[j].length; i++) {
+      if (BEAN[j][i] !== 'X') continue;
+      var c = CREASE[j + ',' + i] ? crease : fill;
+      o += '<rect x="' + (x + i * s) + '" y="' + (y + j * s) + '" width="' + s + '" height="' + s + '" fill="' + c + '"/>';
+    }
+    return o;
+  }
+  function svg(inner) { return '<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" aria-hidden="true">' + inner + '</svg>'; }
+  var COVERS = {
+    kaveri: function () { return svg('<rect width="400" height="300" fill="#3B2418"/>' + bean(110, 36, 20, '#E8D5B5', '#3B2418') + '<text x="200" y="272" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-size="18" font-weight="700" letter-spacing="7" fill="#E8D5B5">KAVERI</text>'); },
+    tidal: function () { return svg('<rect width="400" height="300" class="t"/><rect x="130" y="22" width="140" height="256" rx="14" class="s"/><rect x="130" y="22" width="140" height="256" rx="14" class="sl"/><rect x="146" y="46" width="50" height="6" class="m"/><rect x="146" y="60" width="84" height="16" class="i"/><path d="M146 150 C 166 120, 186 170, 206 144 S 244 132, 254 120 L 254 190 L 146 190 Z" class="a" opacity="0.16"/><path d="M146 150 C 166 120, 186 170, 206 144 S 244 132, 254 120" class="sa"/><rect x="146" y="206" width="108" height="10" class="l"/><rect x="146" y="226" width="108" height="10" class="l"/><rect x="146" y="246" width="70" height="10" class="l"/>'); },
+    lumen: function () { return svg('<rect width="400" height="300" class="a"/><rect x="36" y="34" width="328" height="232" class="s"/><rect x="36" y="34" width="328" height="24" class="l"/><rect x="46" y="42" width="8" height="8" class="m"/><rect x="60" y="42" width="8" height="8" class="m"/><rect x="74" y="42" width="8" height="8" class="m"/><rect x="52" y="74" width="296" height="70" class="t"/><rect x="66" y="90" width="140" height="12" class="i"/><rect x="66" y="110" width="200" height="8" class="m"/><rect x="66" y="124" width="96" height="10" class="a"/><rect x="52" y="160" width="92" height="90" class="l"/><rect x="154" y="160" width="92" height="90" class="l"/><rect x="256" y="160" width="92" height="90" class="l"/><rect x="62" y="206" width="60" height="8" class="m"/><rect x="164" y="206" width="60" height="8" class="m"/><rect x="266" y="206" width="60" height="8" class="m"/>'); },
+    fieldnotes: function () { return svg('<rect width="400" height="300" class="i"/><rect x="48" y="40" width="94" height="220" class="s"/><rect x="153" y="40" width="94" height="220" class="s"/><rect x="258" y="40" width="94" height="220" class="s"/><circle cx="95" cy="104" r="26" class="a" shape-rendering="geometricPrecision"/><rect x="62" y="170" width="66" height="8" class="i"/><rect x="62" y="186" width="44" height="8" class="m"/><rect x="167" y="62" width="66" height="66" class="a"/><rect x="167" y="170" width="66" height="8" class="i"/><rect x="167" y="186" width="52" height="8" class="m"/><rect x="272" y="62" width="66" height="22" class="i"/><rect x="272" y="94" width="66" height="22" class="a"/><rect x="272" y="170" width="66" height="8" class="i"/><rect x="272" y="186" width="30" height="8" class="m"/>'); },
+    orbit: function () { return svg('<rect width="400" height="300" class="t"/><g shape-rendering="geometricPrecision"><ellipse cx="200" cy="150" rx="150" ry="52" class="sa" transform="rotate(-24 200 150)"/><ellipse cx="200" cy="150" rx="104" ry="36" class="sa" transform="rotate(26 200 150)" opacity="0.55"/><circle cx="200" cy="150" r="30" class="a"/><circle cx="312" cy="98" r="9" class="i"/><circle cx="100" cy="196" r="7" class="i"/><circle cx="262" cy="206" r="6" class="m"/></g>'); },
+    pallu: function () {
+      var cols = ['#B5382C', '#F1E6D3', '#1F3A5F', '#F1E6D3', '#E0A526', '#F1E6D3', '#B5382C', '#1F3A5F'];
+      var widths = [34, 18, 52, 14, 28, 22, 60, 20];
+      var x = 0, o = '', i = 0;
+      while (x < 400) { var w = widths[i % widths.length]; o += '<rect x="' + x + '" y="0" width="' + w + '" height="300" fill="' + cols[i % cols.length] + '"/>'; x += w; i++; }
+      o += '<rect x="0" y="130" width="400" height="6" fill="#F1E6D3" opacity="0.8"/><rect x="0" y="164" width="400" height="6" fill="#F1E6D3" opacity="0.8"/>';
+      return svg(o);
+    }
+  };
+  function genericCover(p) {
+    var n = (p.name || '?').trim().charAt(0).toUpperCase() || '?';
+    return svg('<rect width="400" height="300" class="a"/><rect x="40" y="40" width="320" height="220" class="s"/><text x="200" y="188" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-size="120" font-weight="700" class="i">' + escapeHTML(n) + '</text>');
+  }
+  function coverFor(p) {
+    if (p.img && String(p.img).indexOf('data:image/') === 0) return '<img src="' + escapeHTML(p.img) + '" alt="' + escapeHTML(p.name) + '">';
+    if (COVERS[p.id]) return COVERS[p.id]();
+    return genericCover(p);
+  }
+
+  /* ---------- project data ---------- */
+  var DEFAULT_PROJECTS = [
+    { id: 'kaveri', name: 'Kaveri Coffee Roasters', cat: 'Brand', year: 2026, blurb: 'A pixel-built bean mark and a warm palette for a small-batch roaster.', text: 'A concept identity for an imagined roaster that sells online and at weekend markets. The bean mark is built on a nine-square grid so it stays crisp from a browser tab to a market banner.', list: ['Logo and bean mark', 'Four-colour palette', 'Type pairing', 'Paper bag and label system'], study: true },
+    { id: 'tidal', name: 'Tidal', cat: 'Interface', year: 2026, blurb: 'A savings app that shows balance as a tide line before it shows a number.', text: 'A concept mobile app for people who save in small amounts. The home screen leads with a line that rises and falls over time, so progress is visible at a glance and the exact figure comes second.', list: ['Wireframes for five flows', 'Visual design for phone', 'Component library', 'Handoff notes'] },
+    { id: 'lumen', name: 'Lumen Library', cat: 'Interface', year: 2025, blurb: 'A public library website rebuilt around what people actually search for.', text: 'A concept redesign of a library site that moves opening hours, book search and event booking to the front. Everything else sits one level down in a plain, labelled menu.', list: ['Site map and wireframes', 'Desktop and phone layouts', 'Search and booking flows', 'Accessibility checklist'] },
+    { id: 'fieldnotes', name: 'Field Notes Weekly', cat: 'Print', year: 2025, blurb: 'A weekly poster series set on a strict eight-point grid.', text: 'A concept series of posters for an imagined weekly newsletter. Each issue changes one shape and one colour while the grid, type and margins stay fixed, so the set reads as a family.', list: ['Poster template', 'Twelve issue layouts', 'Print-ready PDFs', 'Colour and ink notes'] },
+    { id: 'orbit', name: 'Orbit', cat: 'Motion', year: 2026, blurb: 'Onboarding animation that explains three features in nine seconds.', text: 'A concept onboarding clip for a fitness app. Each feature gets three seconds and a single change of state, then the loop repeats once so nothing is missed.', list: ['Storyboard', 'Animated sequence', 'Vertical and square cuts', 'Source project file'] },
+    { id: 'pallu', name: 'Pallu Textiles', cat: 'Brand', year: 2025, blurb: 'A stripe-based identity system for a handloom label.', text: 'A concept identity for a handloom label, built from woven stripe patterns. The same stripe set becomes the logo, the swing tag and the packaging band.', list: ['Stripe pattern library', 'Logo and tag design', 'Packaging band', 'Brand guide'] }
+  ];
+  var memProjects = null;
+  function loadProjects() {
+    try { var raw = localStorage.getItem('pexel-projects'); if (raw) { var a = JSON.parse(raw); if (Array.isArray(a)) return a; } } catch (e) {}
+    if (memProjects) return memProjects;
+    return DEFAULT_PROJECTS.slice();
+  }
+  var PROJECTS = loadProjects();
+  function saveProjects() {
+    memProjects = PROJECTS;
+    try { localStorage.setItem('pexel-projects', JSON.stringify(PROJECTS)); return true; } catch (e) { return false; }
+  }
+
+  /* ---------- login ---------- */
+  var memLogged = false, memMessages = null;
+  var activeMessageId = null, activeFilter = 'all';
+  function isLogged() { try { if (sessionStorage.getItem('pexel-admin-session') === 'yes') return true; } catch (e) {} return memLogged; }
+  function setLogged(v) { memLogged = v; try { if (v) sessionStorage.setItem('pexel-admin-session', 'yes'); else sessionStorage.removeItem('pexel-admin-session'); } catch (e) {} }
+  function readMessages() { try { return JSON.parse(localStorage.getItem('pexel-messages') || '[]'); } catch (e) { return memMessages || []; } }
+  function writeMessages(items) { memMessages = items; try { localStorage.setItem('pexel-messages', JSON.stringify(items)); } catch (e) {} }
+
+  function showAdmin() {
+    var logged = isLogged();
+    document.getElementById('adminLogin').hidden = logged;
+    document.getElementById('adminDashboard').hidden = !logged;
+    if (logged) renderAdminMessages();
+  }
+  function doLogin() {
+    var email = document.getElementById('adminEmail').value.trim().toLowerCase();
+    var pass = document.getElementById('adminPassword').value;
+    var err = document.getElementById('adminLoginError');
+    if (!pass) { err.textContent = 'Enter the admin password.'; return; }
+    if (email === ADMIN_EMAIL && pass.trim() === ADMIN_PASSWORD) {
+      setLogged(true); err.textContent = ''; document.getElementById('adminPassword').value = ''; showAdmin();
+      window.scrollTo(0, 0);
+    } else err.textContent = 'Email or password is incorrect.';
+  }
+  document.getElementById('adminSignInBtn').addEventListener('click', doLogin);
+  document.getElementById('adminLoginForm').addEventListener('submit', function (e) { e.preventDefault(); doLogin(); });
+  document.getElementById('adminLoginForm').addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); doLogin(); } });
+  document.getElementById('adminLogout').addEventListener('click', function () { setLogged(false); activeMessageId = null; showAdmin(); });
+
+  /* ---------- messages ---------- */
+  function renderAdminMessages() {
+    var all = readMessages();
+    var filtered = all.filter(function (m) { return activeFilter === 'all' || (activeFilter === 'new' && !m.replied) || (activeFilter === 'replied' && m.replied); });
+    var list = document.getElementById('adminMessageList');
+    list.innerHTML = filtered.length ? filtered.slice().reverse().map(function (m) {
+      return '<button type="button" class="message-item' + (m.id === activeMessageId ? ' active' : '') + '" data-message-id="' + escapeHTML(m.id) + '"><strong>' + escapeHTML(m.name) + '</strong><small>' + escapeHTML(m.email) + ' · ' + (m.replied ? 'Replied' : 'New') + '</small><p>' + escapeHTML(m.message.slice(0, 110)) + '</p></button>';
+    }).join('') : '<p class="admin-note">No messages in this folder yet.</p>';
+    document.querySelectorAll('.admin-tab').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.filter === activeFilter)); });
+    if (activeMessageId) { var found = all.find(function (m) { return m.id === activeMessageId; }); if (found) showMessage(found); else document.getElementById('adminMessageDetail').hidden = true; }
+  }
+  function showMessage(m) {
+    activeMessageId = m.id; document.getElementById('adminMessageDetail').hidden = false;
+    document.getElementById('detailStatus').textContent = m.replied ? 'Replied' : 'New message';
+    document.getElementById('detailName').textContent = m.name;
+    document.getElementById('detailEmail').textContent = m.email;
+    document.getElementById('detailProject').textContent = m.project || 'Project enquiry';
+    document.getElementById('detailMessage').textContent = m.message;
+    document.getElementById('adminReply').value = m.reply || '';
+    document.querySelectorAll('.message-item').forEach(function (b) { b.classList.toggle('active', b.dataset.messageId === m.id); });
+  }
+  document.getElementById('adminMessageList').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-message-id]'); if (!b) return;
+    var m = readMessages().find(function (x) { return x.id === b.dataset.messageId; });
+    if (m) showMessage(m);
+  });
+  document.querySelectorAll('.admin-tab').forEach(function (b) { b.addEventListener('click', function () { activeFilter = b.dataset.filter; renderAdminMessages(); }); });
+  document.getElementById('sendReply').addEventListener('click', function () {
+    var reply = document.getElementById('adminReply').value.trim(); if (!reply || !activeMessageId) return;
+    var all = readMessages(), m = all.find(function (x) { return x.id === activeMessageId; }); if (!m) return;
+    m.reply = reply; m.replied = true; writeMessages(all);
+    var subject = encodeURIComponent('Re: Your enquiry to pexel.sahil');
+    var body = encodeURIComponent('Hi ' + m.name + ',\n\n' + reply + '\n\nRegards,\nSahil');
+    window.location.href = 'mailto:' + encodeURIComponent(m.email) + '?subject=' + subject + '&body=' + body;
+    renderAdminMessages();
+  });
+
+  function arm(btn, label, action) {
+    if (btn.dataset.armed === '1') { btn.dataset.armed = ''; btn.classList.remove('armed'); btn.textContent = btn.dataset.orig; action(); return; }
+    btn.dataset.orig = btn.textContent; btn.dataset.armed = '1'; btn.classList.add('armed'); btn.textContent = label;
+    setTimeout(function () { if (btn.dataset.armed === '1') { btn.dataset.armed = ''; btn.classList.remove('armed'); btn.textContent = btn.dataset.orig; } }, 3500);
+  }
+  document.getElementById('deleteMsg').addEventListener('click', function () {
+    if (!activeMessageId) return;
+    arm(this, 'Click again to delete', function () {
+      writeMessages(readMessages().filter(function (m) { return m.id !== activeMessageId; }));
+      activeMessageId = null;
+      document.getElementById('adminMessageDetail').hidden = true;
+      renderAdminMessages();
+    });
+  });
+
+  /* ---------- view tabs ---------- */
+  function setView(v) {
+    document.getElementById('viewMessages').hidden = v !== 'messages';
+    document.getElementById('viewProjects').hidden = v !== 'projects';
+    document.querySelectorAll('.view-tab').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.view === v)); });
+    if (v === 'projects') renderAdminProjects();
+  }
+  document.querySelectorAll('.view-tab').forEach(function (b) { b.addEventListener('click', function () { setView(b.dataset.view); }); });
+
+  /* ---------- projects ---------- */
+  var editingId = null, pendingImg = null, currentImg = null;
+  var pStatus = document.getElementById('projStatus');
+  function say(t) { pStatus.textContent = t; }
+  function persist(okMsg) {
+    var ok = saveProjects();
+    renderAdminProjects();
+    say(ok ? okMsg : okMsg + ' (Browser storage is blocked here, so this lasts only until you close the page. Use "Publish to website file…" to keep it.)');
+  }
+  function renderAdminProjects() {
+    var list = document.getElementById('projList');
+    if (!PROJECTS.length) { list.innerHTML = '<p class="admin-note">No projects. Add one above.</p>'; return; }
+    list.innerHTML = PROJECTS.map(function (p, i) {
+      return '<div class="proj-row"><div class="info"><div class="cv thumb">' + coverFor(p) + '</div><div><strong>' + escapeHTML(p.name) + '</strong><span class="mono">' + escapeHTML(p.cat) + ' · ' + escapeHTML(p.year) + '</span></div></div>' +
+        '<div class="proj-actions">' +
+        '<button class="mini" type="button" data-act="up" data-id="' + escapeHTML(p.id) + '"' + (i === 0 ? ' disabled' : '') + ' aria-label="Move up">↑</button>' +
+        '<button class="mini" type="button" data-act="down" data-id="' + escapeHTML(p.id) + '"' + (i === PROJECTS.length - 1 ? ' disabled' : '') + ' aria-label="Move down">↓</button>' +
+        '<button class="mini" type="button" data-act="edit" data-id="' + escapeHTML(p.id) + '">Edit</button>' +
+        '<button class="mini danger" type="button" data-act="del" data-id="' + escapeHTML(p.id) + '">Remove</button></div></div>';
+    }).join('');
+  }
+  function resetForm() {
+    editingId = null; pendingImg = null; currentImg = null;
+    document.getElementById('projForm').reset();
+    document.getElementById('pYear').value = new Date().getFullYear();
+    document.getElementById('pPrev').hidden = true; document.getElementById('pPrev').innerHTML = '';
+    document.getElementById('pClearWrap').hidden = true;
+    document.getElementById('projFormTitle').textContent = 'Add a project';
+    document.getElementById('pSave').textContent = 'Add project';
+    document.getElementById('pCancel').hidden = true;
+    document.getElementById('pErr').textContent = '';
+  }
+  function showPrev(src) {
+    var box = document.getElementById('pPrev');
+    if (src) { box.innerHTML = '<img alt="Cover preview" src="' + escapeHTML(src) + '">'; box.hidden = false; } else { box.innerHTML = ''; box.hidden = true; }
+  }
+  function readImage(file, cb) {
+    var fr = new FileReader();
+    fr.onload = function () {
+      var im = new Image();
+      im.onload = function () {
+        var r = Math.min(1, 900 / im.width), c = document.createElement('canvas');
+        c.width = Math.max(1, Math.round(im.width * r)); c.height = Math.max(1, Math.round(im.height * r));
+        var x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); x.drawImage(im, 0, 0, c.width, c.height);
+        cb(c.toDataURL('image/jpeg', 0.82));
+      };
+      im.onerror = function () { cb(null); };
+      im.src = fr.result;
+    };
+    fr.onerror = function () { cb(null); };
+    fr.readAsDataURL(file);
+  }
+  document.getElementById('pImg').addEventListener('change', function () {
+    var f = this.files && this.files[0];
+    if (!f) { pendingImg = null; showPrev(currentImg); return; }
+    readImage(f, function (d) {
+      if (!d) { document.getElementById('pErr').textContent = 'That file could not be read as an image.'; return; }
+      pendingImg = d; document.getElementById('pErr').textContent = ''; showPrev(d);
+    });
+  });
+  document.getElementById('projForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = val('pName'), blurb = val('pBlurb');
+    if (!name || !blurb) { document.getElementById('pErr').textContent = 'Add a project name and a one-line summary.'; return; }
+    var year = parseInt(document.getElementById('pYear').value, 10) || new Date().getFullYear();
+    var list = document.getElementById('pList').value.split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
+    var data = { name: name, cat: document.getElementById('pCat').value, year: year, blurb: blurb, text: val('pText') || blurb, list: list };
+    if (editingId) {
+      var p = PROJECTS.filter(function (x) { return x.id === editingId; })[0];
+      if (p) {
+        for (var k in data) p[k] = data[k];
+        if (pendingImg) p.img = pendingImg; else if (document.getElementById('pClear').checked) delete p.img;
+      }
+      resetForm(); persist('Project updated.');
+    } else {
+      data.id = 'p-' + Date.now().toString(36);
+      if (pendingImg) data.img = pendingImg;
+      PROJECTS.unshift(data);
+      resetForm(); persist('Project added. It is now first on Home and Work.');
+    }
+  });
+  document.getElementById('pCancel').addEventListener('click', function () { resetForm(); say(''); });
+  document.getElementById('projList').addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('[data-act]') : null;
+    if (!b) return;
+    var id = b.dataset.id, act = b.dataset.act;
+    var idx = PROJECTS.findIndex(function (x) { return x.id === id; });
+    if (idx < 0) return;
+    if (act === 'up' && idx > 0) { var t = PROJECTS[idx]; PROJECTS[idx] = PROJECTS[idx - 1]; PROJECTS[idx - 1] = t; persist('Order updated.'); }
+    else if (act === 'down' && idx < PROJECTS.length - 1) { var t2 = PROJECTS[idx]; PROJECTS[idx] = PROJECTS[idx + 1]; PROJECTS[idx + 1] = t2; persist('Order updated.'); }
+    else if (act === 'edit') {
+      var p = PROJECTS[idx]; resetForm(); editingId = id; currentImg = p.img || null;
+      document.getElementById('pName').value = p.name; document.getElementById('pCat').value = p.cat;
+      if (!document.getElementById('pCat').value) { var o = document.createElement('option'); o.textContent = p.cat; document.getElementById('pCat').appendChild(o); document.getElementById('pCat').value = p.cat; }
+      document.getElementById('pYear').value = p.year; document.getElementById('pBlurb').value = p.blurb;
+      document.getElementById('pText').value = p.text || ''; document.getElementById('pList').value = (p.list || []).join('\n');
+      showPrev(currentImg); document.getElementById('pClearWrap').hidden = !currentImg;
+      document.getElementById('projFormTitle').textContent = 'Edit project';
+      document.getElementById('pSave').textContent = 'Save changes';
+      document.getElementById('pCancel').hidden = false;
+      document.getElementById('projForm').scrollIntoView({ block: 'nearest' });
+    }
+    else if (act === 'del') {
+      arm(b, 'Click again to remove', function () {
+        PROJECTS.splice(idx, 1);
+        if (editingId === id) resetForm();
+        persist('Project removed.');
+      });
+    }
+  });
+  document.getElementById('resetProj').addEventListener('click', function () {
+    arm(this, 'Click again to reset', function () {
+      PROJECTS = DEFAULT_PROJECTS.slice(); resetForm(); persist('Restored the original six projects.');
+    });
+  });
+
+  function download(name, text, type) {
+    var b = new Blob([text], { type: type }), a = document.createElement('a');
+    a.href = URL.createObjectURL(b); a.download = name; document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  }
+  document.getElementById('exportBtn').addEventListener('click', function () {
+    download('pexel-projects-backup.json', JSON.stringify(PROJECTS, null, 2), 'application/json'); say('Backup downloaded.');
+  });
+  document.getElementById('importFile').addEventListener('change', function () {
+    var f = this.files && this.files[0], input = this;
+    if (!f) return;
+    var fr = new FileReader();
+    fr.onload = function () {
+      try {
+        var a = JSON.parse(fr.result);
+        if (!Array.isArray(a)) throw 0;
+        var clean = a.filter(function (x) { return x && typeof x.name === 'string'; }).map(function (x, i) {
+          var o = { id: String(x.id || ('p-i' + i + Date.now().toString(36))), name: String(x.name).slice(0, 80), cat: String(x.cat || 'Brand').slice(0, 30), year: parseInt(x.year, 10) || new Date().getFullYear(), blurb: String(x.blurb || ''), text: String(x.text || x.blurb || ''), list: Array.isArray(x.list) ? x.list.map(String) : [] };
+          if (typeof x.img === 'string' && x.img.indexOf('data:image/') === 0) o.img = x.img;
+          if (x.study) o.study = true;
+          return o;
+        });
+        PROJECTS = clean; resetForm(); persist('Backup imported: ' + clean.length + ' projects.');
+      } catch (e) { say('That file is not a valid projects backup.'); }
+      input.value = '';
+    };
+    fr.readAsText(f);
+  });
+
+  /* Publish: take the public index.html, replace its siteData block, download the result. */
+  document.getElementById('bakeBtn').addEventListener('click', function () { document.getElementById('bakeFile').click(); });
+  document.getElementById('bakeFile').addEventListener('change', function () {
+    var f = this.files && this.files[0], input = this;
+    if (!f) return;
+    var fr = new FileReader();
+    fr.onload = function () {
+      var html = String(fr.result);
+      var re = /(<script type="application\/json" id="siteData">)[\s\S]*?(<\/script>)/;
+      if (!re.test(html)) { say('That file does not look like the pexel.sahil index.html (no siteData block found).'); input.value = ''; return; }
+      var json = JSON.stringify(PROJECTS).replace(/</g, '\\u003c');
+      var out = html.replace(re, function (m, a, b) { return a + json + b; });
+      download('index.html', out, 'text/html');
+      say('Downloaded index.html with your current projects built in. Upload it to your host to publish.');
+      input.value = '';
+    };
+    fr.readAsText(f);
+  });
+
+  showAdmin();
+})();
+</script>
+</body>
+</html>
