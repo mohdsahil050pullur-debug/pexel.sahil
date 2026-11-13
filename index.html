@@ -544,7 +544,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
     <div class="page-head">
       <span class="mono">Contact</span>
       <h1>Start a project.</h1>
-      <p class="lead">Fill in the short form to build your brief. Copy it and send it to Sahil, and expect a reply within two working days.</p>
+      <p class="lead">Fill in the short form and your brief goes straight to Sahil. Expect a reply within two working days.</p>
     </div>
     <div class="contact">
       <div>
@@ -560,7 +560,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
             <div class="field"><label for="fTime">When do you need it?</label>
               <select id="fTime"><option>Within a month</option><option>In one to three months</option><option>Flexible</option></select></div>
           </div>
-          <div class="field"><label for="fMsg">Tell me about it</label><textarea id="fMsg" placeholder="Who is it for, what should it do, and what do you like or dislike?"></textarea><span class="err" id="eMsg" aria-live="polite"></span></div>
+          <div class="field"><label for="fMsg">Tell me about it</label><textarea id="fMsg" maxlength="3500" placeholder="Who is it for, what should it do, and what do you like or dislike?"></textarea><span class="err" id="eMsg" aria-live="polite"></span></div>
           <div><button class="btn primary" type="submit">Build my brief</button></div>
         </form>
         <div class="brief" id="briefBox" hidden>
@@ -604,8 +604,8 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   </div>
 </div>
 
-<!-- Project data. admin.html's "Download updated website" rewrites this block. -->
-<script type="application/json" id="siteData">null</script>
+<!-- Supabase client -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function () {
   'use strict';
@@ -697,15 +697,32 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
     { id: 'orbit', name: 'Orbit', cat: 'Motion', year: 2026, blurb: 'Onboarding animation that explains three features in nine seconds.', text: 'A concept onboarding clip for a fitness app. Each feature gets three seconds and a single change of state, then the loop repeats once so nothing is missed.', list: ['Storyboard', 'Animated sequence', 'Vertical and square cuts', 'Source project file'] },
     { id: 'pallu', name: 'Pallu Textiles', cat: 'Brand', year: 2025, blurb: 'A stripe-based identity system for a handloom label.', text: 'A concept identity for a handloom label, built from woven stripe patterns. The same stripe set becomes the logo, the swing tag and the packaging band.', list: ['Stripe pattern library', 'Logo and tag design', 'Packaging band', 'Brand guide'] }
   ];
-  var BAKED = null;
-  try { var sd = document.getElementById('siteData'); if (sd && sd.textContent.trim() !== 'null') BAKED = JSON.parse(sd.textContent); } catch (e) {}
-  function loadProjects() {
-    // localStorage lets the owner preview admin changes on this browser; visitors see the baked data.
-    try { var raw = localStorage.getItem('pexel-projects'); if (raw) { var a = JSON.parse(raw); if (Array.isArray(a)) return a; } } catch (e) {}
-    if (Array.isArray(BAKED)) return BAKED;
-    return DEFAULT_PROJECTS.slice();
+  var SUPABASE_URL = 'https://pfainlgggjcubawmqmxh.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_yJw8m2wnbY8SeWINFDfMkw_I90cnEbm'; // publishable key: safe in the browser because Row Level Security protects the tables
+  var sb = null;
+  try { if (window.supabase) sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch (e) {}
+
+  // Projects live in the Supabase "projects" table. A cached copy shows instantly on repeat visits.
+  var loaded = false;
+  var PROJECTS = [];
+  try { var cached = JSON.parse(localStorage.getItem('pexel-projects-cache') || 'null'); if (Array.isArray(cached)) { PROJECTS = cached; loaded = true; } } catch (e) {}
+  function fromRow(r) {
+    var o = { id: r.id, name: r.name, cat: r.cat, year: r.year, blurb: r.blurb || '', text: r.description || r.blurb || '', list: Array.isArray(r.list) ? r.list : [] };
+    if (r.img) o.img = r.img;
+    if (r.study) o.study = true;
+    return o;
   }
-  var PROJECTS = loadProjects();
+  function fetchProjects() {
+    function fallback() { loaded = true; if (!PROJECTS.length) PROJECTS = DEFAULT_PROJECTS.slice(); renderFeatured(); renderWork(); }
+    if (!sb) { fallback(); return; }
+    sb.from('projects').select('*').order('sort_order', { ascending: true }).order('created_at', { ascending: false }).then(function (res) {
+      if (res.error || !Array.isArray(res.data)) { fallback(); return; }
+      PROJECTS = res.data.map(fromRow);
+      loaded = true;
+      try { localStorage.setItem('pexel-projects-cache', JSON.stringify(PROJECTS)); } catch (e) {}
+      renderFeatured(); renderWork();
+    }, fallback);
+  }
   function getCats() {
     var c = ['All'];
     PROJECTS.forEach(function (p) { if (c.indexOf(p.cat) < 0) c.push(p.cat); });
@@ -727,7 +744,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
       '<div class="card-body"><span class="mono">' + escapeHTML(p.cat) + ' · ' + escapeHTML(p.year) + '</span><h3>' + escapeHTML(p.name) + '</h3><p>' + escapeHTML(p.blurb) + '</p></div></button>';
   }
   function renderFeatured() {
-    document.getElementById('featured').innerHTML = PROJECTS.length ? PROJECTS.slice(0, 3).map(cardHTML).join('') : '<p class="mono">No projects yet.</p>';
+    document.getElementById('featured').innerHTML = PROJECTS.length ? PROJECTS.slice(0, 3).map(cardHTML).join('') : '<p class="mono">' + (loaded ? 'No projects yet.' : 'Loading projects…') + '</p>';
   }
   var activeCat = 'All';
   function renderWork() {
@@ -740,7 +757,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
       return '<button class="chip" type="button" data-cat="' + escapeHTML(c) + '" aria-pressed="' + (c === activeCat) + '">' + escapeHTML(c) + '</button>';
     }).join('');
     var list = PROJECTS.filter(function (p) { return activeCat === 'All' || p.cat === activeCat; });
-    document.getElementById('workGrid').innerHTML = list.length ? list.map(cardHTML).join('') : '<p class="mono">No projects in this discipline yet.</p>';
+    document.getElementById('workGrid').innerHTML = list.length ? list.map(cardHTML).join('') : '<p class="mono">' + (loaded ? 'No projects in this discipline yet.' : 'Loading projects…') + '</p>';
   }
 
   /* ---------- project dialog ---------- */
@@ -900,12 +917,6 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   });
 
   /* ---------- contact form ---------- */
-  // Enquiries are stored in this browser's localStorage under "pexel-messages".
-  // admin.html reads the same key when it is hosted on the same domain.
-  var memMessages = null;
-  function readMessages() { try { return JSON.parse(localStorage.getItem('pexel-messages') || '[]'); } catch (e) { return memMessages || []; } }
-  function writeMessages(items) { memMessages = items; try { localStorage.setItem('pexel-messages', JSON.stringify(items)); } catch (e) {} }
-
   var form = document.getElementById('briefForm');
   var briefBox = document.getElementById('briefBox'), briefOut = document.getElementById('briefOut'), copyMsg = document.getElementById('copyMsg');
   function val(id) { return document.getElementById(id).value.trim(); }
@@ -926,12 +937,18 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
       'Needs: ' + document.getElementById('fType').value + '\n' +
       'Timing: ' + document.getElementById('fTime').value + '\n\n' +
       'About the project:\n' + msg + '\n';
-    var inbox = readMessages();
-    inbox.push({ id: 'msg-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8), name: name, email: email, project: proj || document.getElementById('fType').value, message: msg + '\n\nNeed: ' + document.getElementById('fType').value + '\nTiming: ' + document.getElementById('fTime').value, replied: false, createdAt: new Date().toISOString() });
-    writeMessages(inbox);
     briefBox.hidden = false;
-    copyMsg.textContent = 'Brief created. Copy it and send it to @pexel.sahil.';
     briefBox.scrollIntoView({ block: 'nearest' });
+    var submitBtn = form.querySelector('button[type="submit"]');
+    copyMsg.textContent = 'Sending…';
+    if (submitBtn) submitBtn.disabled = true;
+    var row = { name: name, email: email, project: proj || document.getElementById('fType').value, message: msg + '\n\nNeed: ' + document.getElementById('fType').value + '\nTiming: ' + document.getElementById('fTime').value };
+    function done(ok) {
+      copyMsg.textContent = ok ? 'Sent to Sahil. You can also copy the brief below.' : 'Could not send automatically. Copy the brief and send it to @pexel.sahil.';
+      if (submitBtn) submitBtn.disabled = false;
+    }
+    if (!sb) { done(false); return; }
+    sb.from('messages').insert(row).then(function (res) { done(!res.error); }, function () { done(false); });
   });
   document.getElementById('copyBtn').addEventListener('click', function () {
     function fallback() { briefOut.focus(); briefOut.select(); copyMsg.textContent = 'Text selected. Press copy on your device.'; }
@@ -944,6 +961,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   renderFeatured();
   renderWork();
   route();
+  fetchProjects();
 })();
 </script>
 </body>
