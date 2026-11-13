@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <title>pexel.sahil · Admin</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADcAAABSCAYAAADw4kyvAAACwklEQVR42u3bO2hTURgH8P+55nGvyTVpoqblpulS0igNqaGUgkEJgoqPwUEdUuhQncwkOHTysZUWXJykDoKL2NlB3UwRxCFBUJpFWlB6aWgS01eSNtelLTH1VYgX7sf3jYHLzY/v3PP4zjnio24Y5SpMiXdzBeR1c172OKUlbeUqUFgzB5fXq/iwsA6zQgLhYBzjGMc4xjGOcYxjnCmhyhIAlEji+o46IYTIcrO0WtgPCJ0szqNIWZI4VZageRwzJHH9XbKeTvqnyeFUWUK3zzFBskMZ6nHNjp878pAcLqrJ+UinM0VuKIhqcv5Ur/vsjZMd882/26z+jQ31uGYjnc5UK8yyOFWW0N8l690+x0TzN2ZJ3GBI2Z15eBQpq3kcMzvd/Z9CTL5eMswqcY9f1LBa2/9zreV+m4TcQTsyNgcmj3eI+d9mzswS97dK20r3MQAxjxO3crrx1O7A3V8hLd1blqvAlyJGl8p4NbdsJEiuCoobCC8U8bIVSGYQX61DXfyOJ5+KRg/J6VdxA+F6DffJLlaX1zC6kz1yuHIV2KzhDtmV+FodCbK4zQZiXJS1aLOEYRgDZHEAvNwsGcc4xrUPt7NpQBJ32C1lyOLCAeXF9k4kPdzIkPd5PKjkyHYo0ZCc1rz2Cknc2LAvc/6Yepta89zVpJP+6WsnvDcpZfCnVKWT/ukr8UMXTve6chSyuKecPjbsywAYePa+dD2vr18trDQS9S0jAMDU88ntCEH4dPplyqfTV3jizDjGMY5xjGMc4xjHOMYxjmD0BZwAQPNegeqUIIQo8b0C8L0Cvlfw3yMeVHIk7xVoXnslGpLT5IYCVZYwGFKmtuuuACx+Or05Y4MhZerepcADUDp6Hw8quWhITjdnzJK4/Z5SF28+Vx6Z9efORNxvAezZg19cQbLRgP9vz9e28LUh8E8la8mA8gNbL940vwL0fwAAAABJRU5ErkJggg==">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400..700&display=swap">
@@ -43,6 +44,7 @@ p { margin: 0; }
 .bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding-block: 12px; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--f-display); font-weight: 700; font-size: 20px; letter-spacing: -0.02em; margin-right: auto; }
 .brand .dot { color: var(--accent); }
+.brand img { height: 30px; width: auto; flex: none; display: block; }
 .icon-btn { font: 500 13px var(--f-mono); letter-spacing: 0.04em; background: transparent; color: var(--ink); border: 1px solid var(--line); border-radius: var(--r); padding: 8px 12px; cursor: pointer; text-decoration: none; }
 .icon-btn:hover { border-color: var(--accent); }
 
@@ -108,13 +110,23 @@ form { display: grid; gap: 18px; }
 .img-prev { width: 160px; height: 120px; border: 1px solid var(--line); overflow: hidden; background: var(--surface); }
 .img-prev img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .tools-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+.badge { display: inline-block; min-width: 18px; padding: 1px 6px; margin-left: 8px; border-radius: 9px; background: #C2261B; color: #fff; font: 600 11px/16px var(--f-mono); text-align: center; }
+.view-tab[aria-pressed=true] .badge { background: #fff; color: #C2261B; }
+.new-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #C2261B; margin-right: 8px; vertical-align: middle; }
+.message-item.unread { border-left: 3px solid #C2261B; }
+.toasts { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); left: max(16px, env(safe-area-inset-left, 0px)); display: grid; gap: 10px; justify-items: end; z-index: 60; pointer-events: none; }
+.toast { pointer-events: auto; width: min(100%, 360px); text-align: left; background: var(--ink); color: var(--bg); border: 0; border-left: 4px solid #C2261B; padding: 14px 16px; cursor: pointer; font: inherit; box-shadow: 0 8px 28px rgba(0,0,0,.28); animation: toastIn .25s ease; }
+.toast strong { display: block; font-family: var(--f-display); font-size: 16px; }
+.toast span { display: block; font-size: 14px; opacity: .85; overflow-wrap: anywhere; }
+@keyframes toastIn { from { transform: translateY(12px); opacity: 0; } }
 </style>
 </head>
 <body>
 
 <header class="site">
   <div class="wrap bar">
-    <a class="brand" href="index.html" aria-label="Back to the website">pexel<span class="dot">.</span>sahil <span class="mono" style="margin-left:6px">Admin</span></a>
+    <a class="brand" href="index.html" aria-label="Back to the website"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADcAAABSCAYAAADw4kyvAAACwklEQVR42u3bO2hTURgH8P+55nGvyTVpoqblpulS0igNqaGUgkEJgoqPwUEdUuhQncwkOHTysZUWXJykDoKL2NlB3UwRxCFBUJpFWlB6aWgS01eSNtelLTH1VYgX7sf3jYHLzY/v3PP4zjnio24Y5SpMiXdzBeR1c172OKUlbeUqUFgzB5fXq/iwsA6zQgLhYBzjGMc4xjGOcYxjnCmhyhIAlEji+o46IYTIcrO0WtgPCJ0szqNIWZI4VZageRwzJHH9XbKeTvqnyeFUWUK3zzFBskMZ6nHNjp878pAcLqrJ+UinM0VuKIhqcv5Ur/vsjZMd882/26z+jQ31uGYjnc5UK8yyOFWW0N8l690+x0TzN2ZJ3GBI2Z15eBQpq3kcMzvd/Z9CTL5eMswqcY9f1LBa2/9zreV+m4TcQTsyNgcmj3eI+d9mzswS97dK20r3MQAxjxO3crrx1O7A3V8hLd1blqvAlyJGl8p4NbdsJEiuCoobCC8U8bIVSGYQX61DXfyOJ5+KRg/J6VdxA+F6DffJLlaX1zC6kz1yuHIV2KzhDtmV+FodCbK4zQZiXJS1aLOEYRgDZHEAvNwsGcc4xrUPt7NpQBJ32C1lyOLCAeXF9k4kPdzIkPd5PKjkyHYo0ZCc1rz2Cknc2LAvc/6Yepta89zVpJP+6WsnvDcpZfCnVKWT/ukr8UMXTve6chSyuKecPjbsywAYePa+dD2vr18trDQS9S0jAMDU88ntCEH4dPplyqfTV3jizDjGMY5xjGMc4xjHOMYxjmD0BZwAQPNegeqUIIQo8b0C8L0Cvlfw3yMeVHIk7xVoXnslGpLT5IYCVZYwGFKmtuuuACx+Or05Y4MhZerepcADUDp6Hw8quWhITjdnzJK4/Z5SF28+Vx6Z9efORNxvAezZg19cQbLRgP9vz9e28LUh8E8la8mA8gNbL940vwL0fwAAAABJRU5ErkJggg==" alt="" width="20" height="30"><span>pexel<span class="dot">.</span>sahil <span class="mono" style="margin-left:6px">Admin</span></span></a>
     <a class="icon-btn" href="index.html">← View website</a>
     <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme">Theme</button>
   </div>
@@ -142,8 +154,8 @@ form { display: grid; gap: 18px; }
 
   <!-- Dashboard -->
   <div class="admin-panel" id="adminDashboard" hidden>
-    <div class="admin-top"><div><span class="mono">Dashboard</span><h2 style="font-size:2rem;margin-top:5px">Site manager</h2></div><button class="btn" type="button" id="adminLogout">Sign out</button></div>
-    <div class="view-tabs"><button class="view-tab" type="button" data-view="messages" aria-pressed="true">Messages</button><button class="view-tab" type="button" data-view="projects" aria-pressed="false">Projects &amp; work</button></div>
+    <div class="admin-top"><div><span class="mono">Dashboard</span><h2 style="font-size:2rem;margin-top:5px">Site manager</h2></div><div class="row"><button class="mini" type="button" id="notifyBtn" hidden>Turn on desktop alerts</button><button class="btn" type="button" id="adminLogout">Sign out</button></div></div>
+    <div class="view-tabs"><button class="view-tab" type="button" data-view="messages" aria-pressed="true">Messages<span class="badge" id="msgBadge" hidden>0</span></button><button class="view-tab" type="button" data-view="projects" aria-pressed="false">Projects &amp; work</button></div>
 
     <div class="admin-view" id="viewMessages">
       <div class="admin-tabs"><button class="admin-tab" type="button" data-filter="all" aria-pressed="true">All messages</button><button class="admin-tab" type="button" data-filter="new" aria-pressed="false">New</button><button class="admin-tab" type="button" data-filter="replied" aria-pressed="false">Replied</button></div>
@@ -186,9 +198,10 @@ form { display: grid; gap: 18px; }
       <p class="admin-note" id="projStatus" aria-live="polite"></p>
     </div>
 
-    <p class="admin-note">Messages come from the contact form on index.html and are stored in your Supabase database, so you see enquiries from every visitor on any device.</p>
+    <p class="admin-note">Messages come from the contact form on index.html and are stored in your Supabase database. New ones show up here automatically while this page is open.</p>
   </div>
 </main>
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -262,7 +275,8 @@ form { display: grid; gap: 18px; }
 
   /* ---------- state + row mapping ---------- */
   var MESSAGES = [], PROJECTS = [];
-  var activeMessageId = null, activeFilter = 'all';
+  var activeMessageId = null, activeFilter = 'all', KNOWN = null, pollTimer = null, channel = null;
+  var BASE_TITLE = document.title;
   function mapProject(r) {
     var o = { id: r.id, name: r.name, cat: r.cat, year: r.year, blurb: r.blurb || '', text: r.description || '', list: Array.isArray(r.list) ? r.list : [], sort_order: r.sort_order };
     if (r.img) o.img = r.img;
@@ -278,7 +292,7 @@ form { display: grid; gap: 18px; }
     var logged = !!session;
     document.getElementById('adminLogin').hidden = logged;
     document.getElementById('adminDashboard').hidden = !logged;
-    if (logged) { loadMessages(); loadProjects(); }
+    if (logged) { loadProjects(); loadMessages(); startLive(); initNotifyBtn(); } else { stopLive(); }
   }
   async function doLogin() {
     var email = document.getElementById('adminEmail').value.trim().toLowerCase();
@@ -300,30 +314,101 @@ form { display: grid; gap: 18px; }
   document.getElementById('adminLoginForm').addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); doLogin(); } });
   document.getElementById('adminLogout').addEventListener('click', async function () {
     if (sb) await sb.auth.signOut();
-    activeMessageId = null; MESSAGES = []; PROJECTS = [];
+    activeMessageId = null; MESSAGES = []; PROJECTS = []; KNOWN = null; updateBadge();
     showAdmin(null);
   });
 
   /* ---------- messages ---------- */
+  var SEEN_KEY = 'pexel-seen-msgs';
+  function seenSet() { try { return JSON.parse(localStorage.getItem(SEEN_KEY) || '{}') || {}; } catch (e) { return {}; } }
+  function markSeen(id) { var o = seenSet(); o[String(id)] = 1; try { localStorage.setItem(SEEN_KEY, JSON.stringify(o)); } catch (e) {} }
+  function isUnread(m) { return !m.replied && !seenSet()[String(m.id)]; }
+  function updateBadge() {
+    var n = MESSAGES.filter(isUnread).length, b = document.getElementById('msgBadge');
+    b.textContent = n; b.hidden = !n;
+    document.title = (n ? '(' + n + ') ' : '') + BASE_TITLE;
+  }
   async function loadMessages() {
     var list = document.getElementById('adminMessageList');
     var r = await sb.from('messages').select('*').order('created_at', { ascending: false });
-    if (r.error) { list.innerHTML = '<p class="admin-note">Could not load messages: ' + escapeHTML(r.error.message) + '</p>'; return; }
-    MESSAGES = r.data || [];
-    renderAdminMessages();
+    if (r.error) { if (!KNOWN) list.innerHTML = '<p class="admin-note">Could not load messages: ' + escapeHTML(r.error.message) + '</p>'; return; }
+    var data = r.data || [];
+    var fresh = KNOWN ? data.filter(function (m) { return !KNOWN[String(m.id)]; }) : [];
+    KNOWN = {}; data.forEach(function (m) { KNOWN[String(m.id)] = 1; });
+    MESSAGES = data;
+    renderAdminMessages(true);
+    updateBadge();
+    fresh.reverse().forEach(notifyNew);
   }
+
+  /* ---------- live notifications ---------- */
+  function beep() {
+    try {
+      var C = window.AudioContext || window.webkitAudioContext; if (!C) return;
+      var c = new C(), o = c.createOscillator(), g = c.createGain();
+      o.type = 'sine'; o.frequency.value = 880; g.gain.setValueAtTime(0.0001, c.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.15, c.currentTime + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + 0.35);
+      o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime + 0.4);
+    } catch (e) {}
+  }
+  function openMessage(id) {
+    setView('messages'); activeFilter = 'all';
+    var m = MESSAGES.find(function (x) { return String(x.id) === String(id); });
+    if (m) { showMessage(m); renderAdminMessages(true); updateBadge(); document.getElementById('adminMessageDetail').scrollIntoView({ block: 'nearest' }); }
+  }
+  function notifyNew(m) {
+    var snippet = String(m.message || '').replace(/\s+/g, ' ').slice(0, 90);
+    var t = document.createElement('button'); t.type = 'button'; t.className = 'toast';
+    t.innerHTML = '<strong>New message from ' + escapeHTML(m.name) + '</strong><span>' + escapeHTML(snippet) + '</span>';
+    function close() { if (t.parentNode) t.parentNode.removeChild(t); }
+    t.addEventListener('click', function () { close(); openMessage(m.id); });
+    document.getElementById('toasts').appendChild(t);
+    setTimeout(close, 9000);
+    beep();
+    try {
+      if ('Notification' in window && Notification.permission === 'granted') {
+        var n = new Notification('New message from ' + m.name, { body: snippet, tag: 'pexel-msg-' + m.id });
+        n.onclick = function () { window.focus(); openMessage(m.id); n.close(); };
+      }
+    } catch (e) {}
+  }
+  function startLive() {
+    stopLive();
+    // Instant delivery when Realtime is enabled on the messages table; polling below is the safety net.
+    try {
+      channel = sb.channel('admin-messages').on('postgres_changes', { event: '*', schema: 'public', table: 'messages' }, function () { loadMessages(); }).subscribe();
+    } catch (e) {}
+    pollTimer = setInterval(loadMessages, 15000);
+    document.addEventListener('visibilitychange', onVis);
+  }
+  function onVis() { if (!document.hidden && KNOWN) loadMessages(); }
+  function stopLive() {
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+    if (channel && sb) { try { sb.removeChannel(channel); } catch (e) {} channel = null; }
+    document.removeEventListener('visibilitychange', onVis);
+  }
+  function initNotifyBtn() {
+    var b = document.getElementById('notifyBtn');
+    b.hidden = !('Notification' in window) || Notification.permission !== 'default';
+  }
+  document.getElementById('notifyBtn').addEventListener('click', function () {
+    var b = this;
+    try { Notification.requestPermission().then(function () { initNotifyBtn(); }); } catch (e) { b.hidden = true; }
+  });
+
   function fmtDate(d) { try { return new Date(d).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }); } catch (e) { return ''; } }
-  function renderAdminMessages() {
+  function renderAdminMessages(keepReplyDraft) {
     var filtered = MESSAGES.filter(function (m) { return activeFilter === 'all' || (activeFilter === 'new' && !m.replied) || (activeFilter === 'replied' && m.replied); });
     var list = document.getElementById('adminMessageList');
     list.innerHTML = filtered.length ? filtered.map(function (m) {
-      return '<button type="button" class="message-item' + (m.id === activeMessageId ? ' active' : '') + '" data-message-id="' + escapeHTML(m.id) + '"><strong>' + escapeHTML(m.name) + '</strong><small>' + escapeHTML(m.email) + ' · ' + (m.replied ? 'Replied' : 'New') + ' · ' + escapeHTML(fmtDate(m.created_at)) + '</small><p>' + escapeHTML(String(m.message || '').slice(0, 110)) + '</p></button>';
+      var un = isUnread(m);
+      return '<button type="button" class="message-item' + (m.id === activeMessageId ? ' active' : '') + (un ? ' unread' : '') + '" data-message-id="' + escapeHTML(m.id) + '"><strong>' + (un ? '<i class="new-dot" aria-hidden="true"></i>' : '') + escapeHTML(m.name) + '</strong><small>' + escapeHTML(m.email) + ' · ' + (m.replied ? 'Replied' : 'New') + ' · ' + escapeHTML(fmtDate(m.created_at)) + '</small><p>' + escapeHTML(String(m.message || '').slice(0, 110)) + '</p></button>';
     }).join('') : '<p class="admin-note">No messages in this folder yet.</p>';
     document.querySelectorAll('.admin-tab').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.filter === activeFilter)); });
-    if (activeMessageId) { var found = MESSAGES.find(function (m) { return m.id === activeMessageId; }); if (found) showMessage(found); else document.getElementById('adminMessageDetail').hidden = true; }
+    if (activeMessageId) { var found = MESSAGES.find(function (m) { return m.id === activeMessageId; }); if (found) { if (!keepReplyDraft) showMessage(found); } else document.getElementById('adminMessageDetail').hidden = true; }
   }
   function showMessage(m) {
-    activeMessageId = m.id; document.getElementById('adminMessageDetail').hidden = false;
+    activeMessageId = m.id; markSeen(m.id); document.getElementById('adminMessageDetail').hidden = false;
     document.getElementById('detailStatus').textContent = (m.replied ? 'Replied' : 'New message') + ' · ' + fmtDate(m.created_at);
     document.getElementById('detailName').textContent = m.name;
     document.getElementById('detailEmail').textContent = m.email;
@@ -335,7 +420,7 @@ form { display: grid; gap: 18px; }
   document.getElementById('adminMessageList').addEventListener('click', function (e) {
     var b = e.target.closest('[data-message-id]'); if (!b) return;
     var m = MESSAGES.find(function (x) { return x.id === b.dataset.messageId; });
-    if (m) showMessage(m);
+    if (m) { showMessage(m); renderAdminMessages(true); updateBadge(); }
   });
   document.querySelectorAll('.admin-tab').forEach(function (b) { b.addEventListener('click', function () { activeFilter = b.dataset.filter; renderAdminMessages(); }); });
   document.getElementById('sendReply').addEventListener('click', async function () {
