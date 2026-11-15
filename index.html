@@ -133,6 +133,14 @@ ul { margin: 0; padding: 0; list-style: none; }
 .cv .sa { fill: none; stroke: var(--accent); stroke-width: 3; }
 .cv .sl { fill: none; stroke: var(--line); stroke-width: 1; }
 
+/* Poster-size cards: portrait 2:3, whole image visible */
+.card .cv { aspect-ratio: 2 / 3; }
+.card .cv img { object-fit: contain; background: var(--accent-soft); }
+#mCover:has(img) { aspect-ratio: auto; }
+#mCover img { height: auto; max-height: 82vh; object-fit: contain; }
+.card-body h3 { font-size: 1.5rem; }
+.card-body p { font-size: 16px; }
+
 /* Chips */
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
 .chip { font: 500 13px var(--f-mono); letter-spacing: 0.04em; padding: 8px 14px; border: 1px solid var(--line); border-radius: var(--r); background: transparent; color: var(--ink); cursor: pointer; }
@@ -726,7 +734,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
       var cols = ['#B5382C', '#F1E6D3', '#1F3A5F', '#F1E6D3', '#E0A526', '#F1E6D3', '#B5382C', '#1F3A5F'];
       var widths = [34, 18, 52, 14, 28, 22, 60, 20];
       var x = 0, o = '', i = 0;
-      while (x < 400) { var w = widths[i % widths.length]; o += '<rect x="' + x + '" y="0" width="' + w + '" height="300" fill="' + cols[i % cols.length] + '"/>'; x += w; i++; }
+      while (x < 400) { var w = widths[i % widths.length]; o += '<rect x="' + x + '" y="-300" width="' + w + '" height="900" fill="' + cols[i % cols.length] + '"/>'; x += w; i++; }
       o += '<rect x="0" y="130" width="400" height="6" fill="#F1E6D3" opacity="0.8"/><rect x="0" y="164" width="400" height="6" fill="#F1E6D3" opacity="0.8"/>';
       return svg(o);
     }
@@ -782,9 +790,16 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
     if (COVERS[p.id]) return COVERS[p.id]();
     return genericCover(p);
   }
+  function posterSvg(h) {
+    if (h.indexOf('<svg') !== 0) return h;
+    h = h.replace('viewBox="0 0 400 300"', 'viewBox="0 -150 400 600"');
+    var m = h.match(/<rect width="400" height="300"[^>]*\/>/);
+    if (m) h = h.replace(/(<svg[^>]*>)/, '$1' + m[0].replace('width="400" height="300"', 'x="-1000" y="-1000" width="3000" height="3000"'));
+    return h;
+  }
   function cardHTML(p) {
     return '<button class="card" type="button" data-id="' + escapeHTML(p.id) + '">' +
-      '<div class="cv">' + coverFor(p) + '</div>' +
+      '<div class="cv">' + posterSvg(coverFor(p)) + '</div>' +
       '<div class="card-body"><span class="mono">' + escapeHTML(p.cat) + ' · ' + escapeHTML(p.year) + '</span><h3>' + escapeHTML(p.name) + '</h3><p>' + escapeHTML(p.blurb) + '</p></div></button>';
   }
   function renderFeatured() {
