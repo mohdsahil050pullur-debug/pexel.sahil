@@ -604,6 +604,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
             <div class="field"><label for="fName">Your name</label><input id="fName" type="text" autocomplete="name"><span class="err" id="eName" aria-live="polite"></span></div>
             <div class="field"><label for="fEmail">Email</label><input id="fEmail" type="email" autocomplete="email"><span class="err" id="eEmail" aria-live="polite"></span></div>
           </div>
+          <div class="field"><label for="fPhone">Phone number</label><input id="fPhone" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" placeholder="+91 98765 43210"><span class="err" id="ePhone" aria-live="polite"></span></div>
           <div class="field"><label for="fProject">Project or company <small>(optional)</small></label><input id="fProject" type="text"></div>
           <div class="two">
             <div class="field"><label for="fType">What do you need?</label>
@@ -979,20 +980,22 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   var form = document.getElementById('briefForm');
   var sentBox = document.getElementById('sentBox');
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var PHONE_RE = /^\+?[\d\s\-()]{7,18}$/;
   function val(id) { return document.getElementById(id).value.trim(); }
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var name = val('fName'), email = val('fEmail'), msg = val('fMsg');
-    var okName = !!name, okEmail = EMAIL_RE.test(email), okMsg = msg.length >= 10;
+    var name = val('fName'), email = val('fEmail'), phone = val('fPhone'), msg = val('fMsg');
+    var okName = !!name, okEmail = EMAIL_RE.test(email), okPhone = PHONE_RE.test(phone) && phone.replace(/\D/g, '').length >= 7, okMsg = msg.length >= 10;
     document.getElementById('eName').textContent = okName ? '' : 'Enter your name so I know who to reply to.';
     document.getElementById('eEmail').textContent = okEmail ? '' : 'Enter an email address like name@example.com.';
+    document.getElementById('ePhone').textContent = okPhone ? '' : 'Enter a valid phone number, like +91 98765 43210.';
     document.getElementById('eMsg').textContent = okMsg ? '' : 'Add a sentence or two about the project.';
-    if (!(okName && okEmail && okMsg)) return;
+    if (!(okName && okEmail && okPhone && okMsg)) return;
     var sendErr = document.getElementById('eSend'), btn = form.querySelector('button[type="submit"]');
     sendErr.textContent = '';
     btn.disabled = true; btn.textContent = 'Sending…';
     var type = document.getElementById('fType').value;
-    var row = { name: name, email: email, project: val('fProject') || type, message: msg + '\n\nNeed: ' + type + '\nTiming: ' + document.getElementById('fTime').value };
+    var row = { name: name, email: email, project: val('fProject') || type, message: msg + '\n\nPhone: ' + phone + '\nNeed: ' + type + '\nTiming: ' + document.getElementById('fTime').value };
     function finish(ok) {
       btn.disabled = false; btn.textContent = 'Send message';
       if (ok) { form.reset(); form.hidden = true; sentBox.hidden = false; sentBox.scrollIntoView({ block: 'nearest' }); }
